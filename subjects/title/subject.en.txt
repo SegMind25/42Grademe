@@ -1,0 +1,29 @@
+$
+
+Assignment name  : title
+Expected files   : title.c
+Version          : 1
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+
+Write a program that takes one string and displays the characters with each first
+letter of each word in uppercase followed by a newline (\n) on the standard output.
+
+If the number of arguments is not 1, the program displays a newline (\n).
+
+A "word" is defined as part of a string delimited by spaces, or by the start/end
+of the string.
+
+
+Exemples:
+
+$>./title "pgjqwgjpwoqgejowgqw" | cat -e
+Pgjqwgjpwoqgejowgqw$
+$>./title 'no no no no!!!!!' | cat -e
+No No No No!!!!!$
+$>./title "one" "two" | cat -e
+$
+$>./title
+$
+$>

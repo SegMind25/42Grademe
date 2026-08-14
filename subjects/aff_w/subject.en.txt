@@ -1,0 +1,23 @@
+Assignment name  : aff_w
+Expected files   : aff_w.c
+Version          : 1
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string, and displays the first 'w' character it
+encounters in it, followed by a newline. If there are no 'w' characters in the
+string, the program diplays 'w' followed by a newline. If the number of parameters is not
+1, the program displays 'w' followed by a newline.
+
+Example:
+
+$> ./aff_w "abc" | cat -e
+w$
+$> ./aff_w 'RaInB0w d4Sh!' | cat -e
+w$
+$> ./aff_w 'ThE C4k3 Is a L|3' | cat -e
+w$
+$> ./aff_w 'C0cOnUt 0N th3 b3AcH' | cat -e
+w$
+$> ./aff_w | cat -e
+w$

@@ -1,0 +1,24 @@
+Assignment name  : interval_space
+Expected files   : interval_space.c
+Allowed functions: write
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a program that displays exactly 3 spaces between each character on the
+standard output followed by a newline ('\n').
+
+If the number of arguments is not 1, display only a newline.
+
+Examples:
+
+$>./interval_space "abc"
+a   b   c
+$>./interval_space "Coconut" | cat -e
+C   o   c   o   n   u   t$
+$>./interval_space | cat -e
+$
+$>./interval_space "" | cat -e
+$
+
+
+-e

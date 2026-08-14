@@ -1,0 +1,23 @@
+Assignment name  : occ_z
+Expected files   : occ_z.c
+Allowed functions:
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a function that return the number of occurence of the character 'Z'
+in the given string.
+
+
+For example:
+XxxxYyy
+0
+
+XxZZyZ
+3
+
+Your function must be declared as follows:
+
+int     occ_z(char *str);
+
+
+-e

@@ -1,0 +1,25 @@
+Assignment name  : is_palindrome
+Expected files   : is_palindrome.c
+Version          : 1.1
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes one string, if the string is a palindrome displays it
+followed by a newline (\n).
+
+If the number of arguments is not 1 or the string is not a palindrome, the program
+displays a newline (\n).
+
+A palindrome is a word, phrase, or sequence that reads the same backwards as forwards.
+
+Exemples:
+
+$>./is_palindrome "aaaabbbbbbbbaaaa" | cat -e
+aaaabbbbbbbbaaaa$
+$>./is_palindrome "abcdeedcbb" | cat -e
+$
+$>./is_palindrome "one" "two" | cat -e
+$
+$>./is_palindrome
+$
+$>

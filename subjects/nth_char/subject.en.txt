@@ -1,0 +1,31 @@
+$
+
+Assignment name  : nth_char
+Expected files   : nth_char.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+Write a function that takes two arguments: a string and a positive integer n.
+The function should print every nth character from the string, starting from
+the nth position.
+
+The input string will contain only printable ASCII characters.
+
+If n is not a positive integer, print only a newline.
+If the string is empty, print only a newline.
+If n is greater than the string length, print only a newline.
+
+
+Your function must be declared as follows:
+        void print_nth_char(char *str, int n);
+
+Examples:
+int main(void)
+{
+    print_nth_char("ABCDEF", 2);    // prints "BDF\n"
+    print_nth_char("PROGRAMMING", 3); // prints "OAI\n"
+    print_nth_char("HELLOQUAD", 4);  // prints "LA\n"
+    print_nth_char("ABC", 1);        // prints "ABC\n"
+    print_nth_char("ABCDEF", 0);     // prints "\n"
+    print_nth_char("", 2);           // prints "\n"
+    return (0);
+}

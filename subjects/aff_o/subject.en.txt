@@ -1,0 +1,24 @@
+Assignment name  : aff_o
+Expected files   : aff_o.c
+Version          : 1
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string, and displays the first 'o' character it
+encounters in it, followed by a newline. If there are no 'o' characters in the
+string, the program diplays 'o' followed by a newline. If the number of parameters is not
+1, the program displays 'o' followed by a newline.
+
+Example:
+
+$> ./aff_o "abc" | cat -e
+o$
+$> ./aff_o 'RaInB0w d4Sh!' | cat -e
+o$
+$> ./aff_o 'ThE C4k3 Is a L|3' | cat -e
+o$
+$> ./aff_o 'C0cOnUt 0N th3 b3AcH' | cat -e
+o$
+$> ./aff_o | cat -e
+o$
+    -e

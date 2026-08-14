@@ -1,0 +1,21 @@
+Assignment name  : count_letters
+Expected files   : count_letters.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string and counts the number of alphabetical characters (a-z, A-Z) in it. 
+
+Your program should display the number followed by a \n.
+
+If the string is empty or if the number of arguments is not 1, display a \n.
+
+Example : 
+
+$> ./count_letters "Hello World"
+10$
+$> ./count_letters "H3ll0 W0rld" | cat -e
+7$
+$> ./count_letters "" | cat -e
+$
+$> ./count_letters "1337" | cat -e
+0$

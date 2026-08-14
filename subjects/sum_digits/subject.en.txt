@@ -1,0 +1,23 @@
+// Assignment name  : sum_digits
+// Expected files   : sum_digits.c
+// Allowed functions: write
+// --------------------------------------------------------------------------------
+
+// Write a function that takes a string as parameter and returns the sum of all
+// digits (0-9) it contains.
+
+// Non-digit characters are ignored.
+// if no digits are provided print 0.
+
+// Your function must be declared as follows:
+
+// int sum_digits(char *str);
+
+// Examples:
+
+// int main() {
+//     sum_digits("abc123def456")  // returns 21
+//     sum_digits("hello") // returns 0
+//     sum_digits("42") // returns 6
+//     sum_digits("") // returns 0
+// }

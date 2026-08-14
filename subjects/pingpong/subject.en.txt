@@ -1,0 +1,30 @@
+Assignment name  : pingpong
+Expected files   : pingpong.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a function that takes an integer between 1 and 1000, and displays the appropriate output as in the example.
+
+Your function must be declared as follows:
+
+void	pingpong(int n);
+
+If the number is a multiple of 3, it displays 'ping' followed by a newline.
+
+If the number is a multiple of 5, it displays 'pong' followed by a newline.
+
+If the number is both a multiple of 3 and a multiple of 5, it displays 'pingpong' followed by a newline.
+
+If the number is not a multiple of 3 or 5, it displays the number followed by a newline.
+Examples: 
+
+int	main(void)
+{
+	pingpong(1); // 1
+	pingpong(3); // ping
+	pingpong(5); // pong
+	pingpong(15); // pingpong
+	pingpong(999); // ping
+	pingpong(998); // 998
+	return (0);
+}-e

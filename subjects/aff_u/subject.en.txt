@@ -1,0 +1,26 @@
+Assignment name  : aff_u
+Expected files   : aff_u.c
+Version          : 1
+Allowed functions: write
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a program that takes a string, and displays the first 'u' character it
+encounters in it, followed by a newline. If there are no 'u' characters in the
+string, the program diplays 'u' followed by a newline. If the number of parameters is not
+1, the program displays 'u' followed by a newline.
+
+Example:
+
+$> ./aff_u "abc" | cat -e
+u$
+$> ./aff_u 'RaInB0w d4Sh!' | cat -e
+u$
+$> ./aff_u 'ThE C4k3 Is a L|3' | cat -e
+u$
+$> ./aff_u 'C0cOnUt 0N th3 b3AcH' | cat -e
+u$
+$> ./aff_u | cat -e
+u$
+    
+-e

@@ -1,0 +1,24 @@
+Assignment name  : first_last_char
+Expected files   : first_last_char.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string as argument and displays only the first
+and last character of that string, followed by a newline.
+
+If the string is empty or if the number of arguments is not 1, display only
+a newline.
+
+If the string has only one character, display that character twice.
+
+Examples:
+
+$> ./first_last_char "hello"
+ho
+$> ./first_last_char "world" | cat -e
+wd$
+$> ./first_last_char "a" | cat -e
+aa$
+$> ./first_last_char "" | cat -e
+$
+$> ./first_last_char | cat -e

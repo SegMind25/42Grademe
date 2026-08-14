@@ -1,0 +1,16 @@
+Assignment name  : ft_ft
+Expected files   : ft_ft.c
+Allowed functions: write
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a program that display "42" followed by a newline (\n).
+
+Example:
+
+$>./ft_ft
+42
+$>./ft_ft | cat -e
+42$
+$>
+-e

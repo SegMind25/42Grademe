@@ -1,0 +1,21 @@
+$
+
+Assignment name  : occ_a
+Expected files   : occ_a.c
+Allowed functions:
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a function that return the number of occurence of the character 'A'
+in the given string.
+
+For example:
+Hello World
+0
+
+ZzAaa
+1
+
+Your function must be declared as follows:
+
+int     occ_a(char *str);

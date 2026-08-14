@@ -1,0 +1,23 @@
+Assignment name  : aff_s
+Expected files   : aff_s.c
+Version          : 1
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string, and displays the first 's' character it
+encounters in it, followed by a newline. If there are no 's' characters in the
+string, the program diplays 's' followed by a newline. If the number of parameters is not
+1, the program displays 's' followed by a newline.
+
+Example:
+
+$> ./aff_s "abc" | cat -e
+s$
+$> ./aff_s 'RaInB0w d4Sh!' | cat -e
+s$
+$> ./aff_s 'ThE C4k3 Is a L|3' | cat -e
+s$
+$> ./aff_s 'C0cOnUt 0N th3 b3AcH' | cat -e
+s$
+$> ./aff_s | cat -e
+s$

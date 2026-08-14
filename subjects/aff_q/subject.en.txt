@@ -1,0 +1,24 @@
+Assignment name  : aff_q
+Expected files   : aff_q.c
+Version          : 1
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string, and displays the first 'q' character it
+encounters in it, followed by a newline. If there are no 'q' characters in the
+string, the program diplays 'q' followed by a newline. If the number of parameters is not
+1, the program displays 'q' followed by a newline.
+
+Example:
+
+$> ./aff_q "abc" | cat -e
+q$
+$> ./aff_q 'RaInB0w d4Sh!' | cat -e
+q$
+$> ./aff_q 'ThE C4k3 Is a L|3' | cat -e
+q$
+$> ./aff_q 'C0cOnUt 0N th3 b3AcH' | cat -e
+q$
+$> ./aff_q | cat -e
+q$
+    -e

@@ -1,0 +1,12 @@
+Assignment name  : count_len
+Expected files   : count_len.c
+Allowed functions:
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a function that return the length of a string.
+
+Your function must be declared as follows:
+
+int count_len(char *str);
+

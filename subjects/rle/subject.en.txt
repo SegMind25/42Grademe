@@ -1,0 +1,27 @@
+Assignment name  : rle
+Expected files   : rle.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a single string as an argument and applies a basic
+run-length encoding algorithm.
+
+The input string contains only uppercase letters (A–Z),
+with no character repeated more than 9 times consecutively.
+
+The RLE algorithm compresses sequences of the same character by replacing them
+with the number of repetitions followed by the character.
+
+If the string is empty or if the number of arguments is not 1, display a \n.
+
+If a character appears once, don't print the count (just the character).
+
+Examples:
+
+$> ./rle "AAABBC" | cat -e
+3A2BC$
+$> ./rle "ABCD" | cat -e
+ABCD$
+$> ./rle "" | cat -e
+$
+$> ./rle | cat -e

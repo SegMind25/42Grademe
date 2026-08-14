@@ -1,0 +1,15 @@
+Assignment name  : odd
+Expected files   : odd.c
+Allowed functions: write
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a program that display all odd digits from 0 to 10, followed by a
+newline '\n'.
+
+Example:
+$> ./odd
+13579
+$> ./odd | cat -e
+13579$
+$>

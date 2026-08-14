@@ -19,6 +19,7 @@
 ## 📚 Table of Contents
 
 - [✨ Features](#-features)
+- [🖼 Screenshots](#-screenshots)
 - [🚀 Quick Start](#-quick-start)
 - [🎮 Cheat Codes](#-cheat-codes)
 - [🕶 VIP Cheat Codes](#-vip-cheat-codes)
@@ -41,6 +42,14 @@
 - [ ] Memory leak detection for all exercises
 
 > ⚠️ Works on **macOS and Linux** — the real exam runs on **Linux**.
+
+---
+
+## 🖼 Screenshots
+
+![Grademe — exam session](https://user-images.githubusercontent.com/55356071/153122308-7a6c5a90-bc58-490b-b815-c4db6bc9bcdc.png)
+
+![Grademe — project tests](https://user-images.githubusercontent.com/55356071/153124244-f2348ee5-16d0-4e73-b3f9-757638196996.png)
 
 ---
 

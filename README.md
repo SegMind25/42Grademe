@@ -47,21 +47,20 @@
 
 ## 🖼 Screenshots
 
-<div align="center">
-
-<figure>
-  <img src="https://user-images.githubusercontent.com/55356071/153122308-7a6c5a90-bc58-490b-b815-c4db6bc9bcdc.png" alt="Grademe — exam session" width="85%" style="border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);" />
-  <figcaption><em>Exam session</em></figcaption>
-</figure>
-
-<br />
-
-<figure>
-  <img src="https://user-images.githubusercontent.com/55356071/153124244-f2348ee5-16d0-4e73-b3f9-757638196996.png" alt="Grademe — project tests" width="85%" style="border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);" />
-  <figcaption><em>Project tests</em></figcaption>
-</figure>
-
-</div>
+<table align="center">
+  <tr>
+    <th align="center"><code>🧪 Exam Session</code></th>
+    <th align="center"><code>🔍 Project Tests</code></th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://user-images.githubusercontent.com/55356071/153122308-7a6c5a90-bc58-490b-b815-c4db6bc9bcdc.png" alt="Grademe — exam session" style="width: 100%; max-width: 420px; border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);" />
+    </td>
+    <td align="center">
+      <img src="https://user-images.githubusercontent.com/55356071/153124244-f2348ee5-16d0-4e73-b3f9-757638196996.png" alt="Grademe — project tests" style="width: 100%; max-width: 420px; border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);" />
+    </td>
+  </tr>
+</table>
 
 ---
 

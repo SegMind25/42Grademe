@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Compiled binary
+.system/a.out
+
+# Runtime / user data (generated while running an exam)
+.system/exam_token/
+.system/grading/
+.system/acceptCGV
+.system/vip_list
+.system/readline_ok
+.system/.devmake.err

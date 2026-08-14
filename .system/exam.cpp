@@ -87,48 +87,47 @@ void exam::set_max_time(void)
 void exam::explanation(void)
 {
     std::string enter;
-    system("clear");
-
-    std::cout << std::endl
-              << "\x1B[32m        EXPLANATION : \e[97m\e[1m" << std::endl
-              << std::endl;
-    std::cout << "     ⚠️  You have to work from a new window to keep this one \x1B[32mavailable\e[97m\e[1m\n"
-              << std::endl;
-    std::cout << "     📝 A random subject named \x1B[32msubject.en.txt\e[97m\e[1m will be generated" << std::endl;
-    std::cout << "         > You must write your file (example.c) in the assign folder (see subject)," << std::endl;
-    std::cout << "           this folder must be in folder: \x1B[32mrendu\e[97m\e[1m" << std::endl
-              << std::endl;
-    std::cout << "     🎓 Once completed, you can push/correct your project with : \x1B[32mgrademe\e[97m\e[1m" << std::endl;
-    std::cout << "         If your level is validated, you move on to the next level 🎉" << std::endl;
-    std::cout << "         If not, you have to start again ❌" << std::endl
-              << std::endl;
-    std::cout << "     ⌛️ Warning: The more you try to get the same project corrected, \n     the longer you will have to wait to get it \x1B[32mcorrected\e[97m\e[1m.\n\n"
-              << std::endl;
-    std::cout << "     📌 Nice reminder : Here you don't need to use GIT.\n         Remember that during the exam you will have to use it to push your project !\n\n"
-              << std::endl;
-
-    std::cout << "\x1B[32m       RGPD Information :\e[97m\e[1m" << std::endl;
-    std::cout << "         The data that can be collected are :\n"
-              << "             - The host name of your machine. (can be set to anonyme in menu)\n"
-              << "             - The exam number you choose.\n"
-              << "             - Name of exercise, fail or success, current assignement and level.\n"
-              << std::endl << std::endl;
-
-    std::cout << "\x1B[32m      🚀 Grademe VIP\e[97m\e[1m: (0€ - 3€)" << std::endl;
-    std::cout << "         You can become VIP by contributing to the repo, making a \x1B[35mPull Request\e[97m\e[1m\n         OR \x1B[32mSponsor Github Page\e[97m\e[1m (use \x1B[35msponsor\e[97m\e[1m for more info):\n"
-              << "             - Instant correction with new \x1B[35mgradenow\e[97m\e[1m command\n"
-              << "             - Force an exercise to succeed with \x1B[35mforce_success\e[97m\e[1m command\n"
-              << "             - Having the \x1B[35mSAME display condition\e[97m\e[1m as 42 school\n"
-              << "               More coming...\n"
-              << std::endl << std::endl;
-    
-    std::cout << RED << "     ‼️  DICLAIMER" << WHITE << std::endl;
-    std::cout << "         This program is " << RED << "not" << WHITE << " the real 42 exam and is " << RED << "not" << WHITE << " made by 42." << std::endl;
-    std::cout << "         It is created by a student, free and open-source." << std::endl << std::endl;
-    std::cout << RESET << "     (Press enter to continue...)" << std::endl
-              << "      ";
-    if (!std::getline(std::cin, enter))
-        sigd();
+    ui::frame_open("HOW THE EXAM WORKS", false);
+    ui::blank();
+    ui::line("  " + U_YELLOW + "⚠" + U_RESET + "  You have to work from a new window to keep this one " + U_LIME + "available" + U_RESET);
+    ui::blank();
+    ui::line("  " + U_YELLOW + "📝" + U_RESET + "  A random subject named " + U_LIME + "subject.en.txt" + U_RESET + " will be generated.");
+    ui::line("        > You must write your file (example.c) in the assign folder (see subject),");
+    ui::line("          this folder must be inside the folder: " + U_LIME + "rendu" + U_RESET);
+    ui::blank();
+    ui::line("  " + U_YELLOW + "🎓" + U_RESET + "  Once completed, you can push/correct your project with: " + U_LIME + "grademe" + U_RESET);
+    ui::line("        > If your level is validated, you move on to the next level 🎉");
+    ui::line("        > If not, you have to start again ❌");
+    ui::blank();
+    ui::line("  " + U_YELLOW + "⌛" + U_RESET + "  Warning: the more you try to get the same project corrected,");
+    ui::line("          the longer you will have to wait to get it " + U_LIME + "corrected" + U_RESET + ".");
+    ui::blank();
+    ui::line("  " + U_YELLOW + "📌" + U_RESET + "  Nice reminder: here you don't need to use GIT.");
+    ui::line("          Remember that during the exam you will have to use it to push your project!");
+    ui::blank();
+    ui::sep();
+    ui::line(U_MAGENTA + U_BOLD + "  RGPD INFORMATION:" + U_RESET);
+    ui::line("     The data that can be collected are:");
+    ui::line("       - The host name of your machine. (can be set to anonyme in menu)");
+    ui::line("       - The exam number you choose.");
+    ui::line("       - Name of exercise, fail or success, current assignement and level.");
+    ui::blank();
+    ui::sep();
+    ui::line(U_MAGENTA + U_BOLD + "  🚀 GRADEME VIP (0€ - 3€):" + U_RESET);
+    ui::line("     You can become VIP by contributing to the repo, making a " + U_PINK + "Pull Request" + U_RESET);
+    ui::line("     OR " + U_LIME + "Sponsor Github Page" + U_RESET + " (use " + U_PINK + "sponsor" + U_RESET + " for more info):");
+    ui::line("       - Instant correction with new " + U_PINK + "gradenow" + U_RESET + " command");
+    ui::line("       - Force an exercise to succeed with " + U_PINK + "force_success" + U_RESET + " command");
+    ui::line("       - Having the " + U_PINK + "SAME display condition" + U_RESET + " as 42 school");
+    ui::line("       - More coming...");
+    ui::blank();
+    ui::sep();
+    ui::line("  " + U_RED + U_BOLD + "‼  DISCLAIMER:" + U_RESET);
+    ui::line("      This program is " + U_RED + "not" + U_RESET + " the real 42 exam and is " + U_RED + "not" + U_RESET + " made by 42.");
+    ui::line("      It is created by a student, free and open-source.");
+    ui::blank();
+    ui::frame_close();
+    ui::press_enter();
 }
 
 
@@ -155,14 +154,13 @@ void exam::ask_param(void)
                 exam_number = stud_menu();
             }
         }
-        std::cout << REMOVE_LINE << REMOVE_LINE << REMOVE_LINE << std::endl;
+        ui::clear();
         if (student)
-            std::cout << LIME << BOLD << "       EXAM RANK 0" << exam_number << RESET << std::endl;
+            ui::line_center("EXAM RANK 0" + std::to_string(exam_number), std::string(U_BOLD) + U_LIME);
         else
-            std::cout << LIME << BOLD << "       EXAM WEEK 0" << exam_number << RESET << std::endl;
-        std::cout << "   Confirm" << BOLD << WHITE << " Registration" << RESET << "?" << std::endl
-                  << "          (y/n)" << std::endl
-                  << "            ";
+            ui::line_center("EXAM WEEK 0" + std::to_string(exam_number), std::string(U_BOLD) + U_LIME);
+        std::cout << U_WHITE << U_BOLD << "   Confirm " << U_LIME << "Registration" << U_RESET << U_WHITE << U_BOLD << "?" << U_RESET << std::endl;
+        ui::prompt(U_LIME + "y" + U_RESET + " to confirm, anything else to retry");
         std::string confirm;
         if (!std::getline(std::cin, confirm))
             sigd();
@@ -188,14 +186,24 @@ void exam::ask_param(void)
     // CONNEXION ANIMATION
     connexion();
     set_max_time();
-    std::cout << "You're connected " << LIME << username << RESET << "!" << std::endl;
-    std::cout << "You can log out at any time. If this program tells you you earned points,\nthen they will be counted whatever happens.\n"
-              << std::endl;
-    std::cout << BOLD << WHITE << "You are about to start the project " << LIME << BOLD << "ExamRank0" << exam_number << BOLD << WHITE << ", in " << MAGENTA << "REAL" << BOLD << WHITE << " mode, at level " << YELLOW << level << BOLD << WHITE << "." << RESET << std::endl;
-    std::cout << WHITE << BOLD << "You would have " << LIME << BOLD << (time_max / 60) << "hrs " << BOLD << WHITE << "to complete this project." << RESET << std::endl
-              << "Press a key to start exam 🏁" << std::endl;
-    if (!std::getline(std::cin, enter))
-        sigd();
+    ui::clear();
+    ui::frame_open("EXAM READY", false);
+    ui::blank();
+    ui::line_center(U_LIME + U_BOLD + "✔  You're connected, " + U_WHITE + username + U_LIME + "!" + U_RESET, U_WHITE);
+    ui::blank();
+    ui::line("  You can log out at any time. If this program tells you you earned points,");
+    ui::line("  then they will be counted whatever happens.");
+    ui::blank();
+    ui::sep();
+    ui::blank();
+    ui::line("  " + U_DIM + "Project" + U_RESET + "   " + U_WHITE + U_BOLD
+             + (student ? "ExamRank0" + std::to_string(exam_number) : "ExamWeek0" + std::to_string(exam_number))
+             + U_RESET + "  in " + U_MAGENTA + U_BOLD + "REAL" + U_RESET + " mode");
+    ui::line("  " + U_DIM + "Start lvl" + U_RESET + "  " + U_YELLOW + U_BOLD + std::to_string(level) + U_RESET);
+    ui::line("  " + U_DIM + "Duration" + U_RESET + "  " + U_LIME + U_BOLD + std::to_string(time_max / 60) + "hrs" + U_RESET);
+    ui::blank();
+    ui::frame_close();
+    ui::press_enter("Press a key to start exam 🏁");
     // ====================
 
     // TIME SETUP
@@ -240,7 +248,7 @@ exam::exam(void) : exam_grade(0), level(0), level_max(0), failures(0), student(f
     reelmode = true;
     waiting_time = true;
 	vip = 0;
-    username = getenv("USER");
+    username = getenv("USER") ? getenv("USER") : "unknown";
     load_settings();
 	system("curl https://user.grademe.fr/vip_list > .system/vip_list 2> /dev/null");
 	std::ifstream vip_list(".system/vip_list");

@@ -46,21 +46,25 @@
 
 ## 🚀 Quick Start
 
-Install and launch **42_EXAM** in a single command:
+> ⚠️ The old one-liner `bash -c "$(curl https://grademe.fr)"` **no longer works** — `grademe.fr` now serves the web app (HTML), not the installer script.
+
+Clone and launch **42_EXAM** from the repository:
 
 ```bash
-bash -c "$(curl https://grademe.fr)"
+git clone https://github.com/JCluzet/GrademeBash 42EXAM
+cd 42EXAM
+make          # start the exam
 ```
 
-> Visit [Grademe.fr](https://grademe.fr) for more information.
-
-Alternatively, run it locally with `make`:
+Available `make` commands:
 
 ```bash
 make          # start the exam
 make re       # restart from scratch
 make help     # show available commands
 ```
+
+> Visit [Grademe.fr](https://grademe.fr) to practice in the browser.
 
 ---
 

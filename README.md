@@ -1,101 +1,135 @@
-# 42_EXAM v2 🎓
- ## All 42 exams auto-correct, to practice.
- ## ExamRank02, 03, 04, 05, 06 & PiscineExam
-  ##   👉  42_EXAM is now part of **[GRADEME.FR](https://grademe.fr)** 😎
- #### Disclaimer: This project is not made by 42School, it's not identical to the proposed exams and does not reflect your exams at 42
- ### NEW ExamRank02 available 🥳
- 
+<div align="center">
 
-<img width="711" alt="Screenshot 2022-09-06 at 17 00 20" src="https://user-images.githubusercontent.com/55356071/188669215-6681228d-e6b5-4229-b177-45d2699e29ae.png">
+# 🎓 42_EXAM
 
------
+### All 42 exams auto-corrected, ready to practice.
 
-### ⚠️ This project is available on MAC and LINUX (the real exam will be on Linux)
+**ExamRank02 · 03 · 04 · 05 · 06** &nbsp;·&nbsp; **PiscineExam**
 
------
+![Version](https://img.shields.io/badge/version-2.0-blue.svg)
+![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey.svg)
+![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)
 
- ## Practice for the 42 exam 🏊‍♂️
+> 42_EXAM is now part of **[GRADEME.FR](https://grademe.fr)** 😎
 
- 
-  - [x] New Subjects ExamRank02 APRIL 2022 
-  - [x] Subject drawn at random 
-  - [x] Exponential waiting for a correction
-  - [x] X Hours maximum 
-  - [x] Automatic correction (without internet) 
-  - [x] Traceback available 
-  - [x] Detect infinite loop in your program (ExamRank02)
-  - [ ] Detect infinite loop in all ExamRank
-  - [ ] Detect leaks in all exercices
+</div>
 
-<img width="711" alt="Screenshot 2022-09-06 at 17 00 47" src="https://user-images.githubusercontent.com/55356071/188669367-504411a5-5c62-4848-932e-405c9ee05a45.png">
+---
 
-<img width="711" alt="Screenshot 2022-09-06 at 17 01 15" src="https://user-images.githubusercontent.com/55356071/188669418-04f8bb1b-9cc2-4c07-9d07-5e9c570283b4.png">
+## 📚 Table of Contents
 
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [🎮 Cheat Codes](#-cheat-codes)
+- [🕶 VIP Cheat Codes](#-vip-cheat-codes)
+- [🤝 Contributing](#-contributing)
+- [🔒 Privacy & GDPR](#-privacy--gdpr)
+- [📄 Disclaimer](#-disclaimer)
 
+---
 
+## ✨ Features
 
- # 👓 CHEAT code :
- (sorry don't work in exam at 42)
-   
-   **remove_grade_time** : remove grade time between two push
-   
-      > The maximum time to complete the exam is only information. 
-      Here, the exercise can always be corrected even after the time limit.
-      
-   **force_success** : force an exercice to success
-   
-   **new_ex** : generate a new exercice on the same level
-   
- # 🕶 VIP CHEAT code :
- [Sponsor to become VIP](https://github.com/sponsors/JCluzet)
- OR
- [Contribute to become VIP](CONTRIBUTING.md)
- 
- You can contribute by adding new exercises or improving the program 
- 
-   **gradenow** : Get an instant correction (no grademe cooldown)
-   
-  > Being a sponsor brings VIP on GradeMe and 42_EXAM.
-  
-  > VIPs also have exactly the same display as the 42 examshell.
-  
-  > More features coming
+- [x] New subjects — ExamRank02 (April 2022)
+- [x] Subject drawn at random
+- [x] Exponential waiting before correction
+- [x] Timed sessions (X hours maximum)
+- [x] Automatic correction — fully offline
+- [x] Traceback available for each test
+- [x] Infinite loop detection (ExamRank02)
+- [ ] Infinite loop detection for all ExamRanks
+- [ ] Memory leak detection for all exercises
 
- # Launch 42_EXAM in ONE COMMAND : 
+> ⚠️ Works on **macOS and Linux** — the real exam runs on **Linux**.
 
- ```bash -c "$(curl https://grademe.fr)"```    --> Visit [Grademe.fr](https://grademe.fr)
- 
-# 👮‍♀️ RGPD Information :
- Some data may be collected for the sole purpose of improving the service, for example to check if an error is coming from the student and not from the program. 
-The data that can be collected are : 
-- The host name of your machine.
-- The exam number you choose.
-- Name of exercise, fail or success, current assignement and level.
+---
 
-# Contribution by adding more exercises :
+## 🚀 Quick Start
 
-You can contribute by adding new exercises very easily with 42_EXAM. 
+Install and launch **42_EXAM** in a single command:
 
-📄 Read this documentation: [Contribution DOC](CONTRIBUTING.md)
+```bash
+bash -c "$(curl https://grademe.fr)"
+```
 
-🥳 If your contribution is accepted, your name will be listed in the ReadMe as a contributor, thanks!
+> Visit [Grademe.fr](https://grademe.fr) for more information.
 
-Contributor : pandaero
-              Kuninoto
-              ComlanGiovanni
+Alternatively, run it locally with `make`:
 
-# Disclaimer for 42 staff :
+```bash
+make          # start the exam
+make re       # restart from scratch
+make help     # show available commands
+```
 
-This project is not identical to the proposed exams and does not reflect 42 official exam. 
-It is only meant to help 42 students to train on some exercises found on Github. 
-It works simply by doing a DIFF on both versions. 
-All the subjects have been found on Github. During my schooling at 42, this project helped me to understand a lot of notions like how to host a website, working with javascript, php and others.
-This project has been created with the sole purpose of helping students to understand their mistakes and improve themselves. 
-If It’s not the case, I am ready to make changes and corrections on it, 42_EXAM/GradeMe has only a non-lucrative and educational purpose. It is completely free and open-source. 
+---
 
+## 🎮 Cheat Codes
 
-# Your help is welcome
+> ⚠️ *Sorry, these don't work during the real exam at 42.*
 
-👋 If you have any problem with any test, please create an "Issue" here on Github, it will only take 3 minutes of your time and it will help me to make the test more accurate.
+| Code | Effect |
+|------|--------|
+| `remove_grade_time` | Removes the waiting time between two submissions. The max exam duration becomes purely informational — an exercise can always be corrected, even past the time limit. |
+| `force_success` | Forces an exercise to pass. |
+| `new_ex` | Generates a new exercise at the same level. |
 
-📌 Remember that if you encounter an error, you're probably not the only one and your "Issue" will surely help other people.
+---
+
+## 🕶 VIP Cheat Codes
+
+Become a VIP by [sponsoring on GitHub](https://github.com/sponsors/JCluzet) or by [contributing to the project](CONTRIBUTING.md).
+
+| Code | Effect |
+|------|--------|
+| `gradenow` | Instant correction — no grademe cooldown. |
+
+> Being a sponsor brings VIP status to **GradeMe** and **42_EXAM**.
+>
+> VIPs get the exact same display as the 42 examshell. More features coming soon.
+
+---
+
+## 🤝 Contributing
+
+You can contribute by adding new exercises or improving the program.
+
+1. Read the [Contribution Guide](CONTRIBUTING.md).
+2. Submit your exercise via a pull request.
+3. If accepted, your name is listed below. 🥳
+
+**Contributors:** `pandaero` · `Kuninoto` · `ComlanGiovanni`
+
+Found a broken test? Open an **Issue** — it only takes 3 minutes and helps everyone.
+
+---
+
+## 🔒 Privacy & GDPR
+
+Some data may be collected solely to improve the service (e.g. to determine whether an error comes from the student or the program). This data may include:
+
+- The hostname of your machine
+- The exam number you choose
+- The exercise name, pass/fail status, current assignment, and level
+
+---
+
+## 📄 Disclaimer
+
+> This project is **not** made by 42 School, is **not** identical to the official exams, and does **not** reflect the real exam at 42.
+
+42_EXAM is built with the sole purpose of helping students understand their mistakes and improve. It works by running a `DIFF` between the student's rendering and the reference solution. All subjects are found on GitHub.
+
+This project has only a **non-lucrative and educational purpose** — it is completely **free and open-source**.
+
+---
+
+<div align="center">
+
+#### Your help is welcome 👋
+
+*Remember: if you hit an error, you're probably not alone — your Issue will help others too.*
+
+[Apache License 2.0](LICENSE)
+
+</div>

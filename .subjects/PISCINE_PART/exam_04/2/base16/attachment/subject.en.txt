@@ -1,0 +1,38 @@
+Assignment name  : base16
+Expected files   : base16.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a single decimal number as argument and display its
+base 16 representation to the standard output, followed by a \n.
+
+The input will always be a valid positive integer or zero.
+You must not handle invalid inputs (negative numbers, non-numeric characters).
+
+If the number of arguments is not 1, the program displays a \n.
+
+Base 16 uses the following symbols:
+0 = 0, 1 = 1, 2 = 2, 3 = 3, 4 = 4, 5 = 5, 6 = 6, 7 = 7, 8 = 8, 9 = 9,
+A = 10, B = 11, C = 12, D = 13, E = 14, F = 15
+
+Base 16 conversion rules:
+- Each position represents a power of 16 (rightmost is 16^0, next is 16^1, etc.)
+- To convert from decimal: repeatedly divide by 16 and use remainders as digits
+- Convert each remainder to its corresponding symbol (0-9 for 0-9, A-F for 10-15)
+
+Examples:
+$>./base16 "0" | cat -e
+0$
+$>./base16 "10" | cat -e
+A$
+$>./base16 "15" | cat -e
+F$
+$>./base16 "16" | cat -e
+10$
+$>./base16 "255" | cat -e
+FF$
+$>./base16 "256" | cat -e
+100$
+$>./base16 "3735928559" | cat -e
+DEADBEEF$
+$>./base16 | cat -e

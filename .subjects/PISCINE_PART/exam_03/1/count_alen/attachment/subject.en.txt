@@ -1,0 +1,14 @@
+Assignment name  : count_alen
+Expected files   : count_alen.c
+Allowed functions:
+Version          : 1
+--------------------------------------------------------------------------------
+
+Write a function that return the length of a string until the first 'a' character
+encourred.
+
+If no 'a' is present in the string, return the total length of the string.
+
+Your function must be declared as follows:
+
+int count_alen(char *str);

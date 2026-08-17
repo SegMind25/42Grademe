@@ -201,6 +201,8 @@ while [ ! -f .system/a.out ]; do
     done
 done
 
+wait $PID
+
 check_package() {
     if ! command -v "$1" &>/dev/null; then
         return 1

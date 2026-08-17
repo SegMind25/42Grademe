@@ -9,6 +9,7 @@
 namespace ui {
 
 static int cached_border = 0;
+static int cached_margin = -1;
 
 static int term_columns(void)
 {
@@ -40,6 +41,24 @@ int border_width(void)
 int text_width(void)
 {
     return (border_width() - 4);
+}
+
+static int left_margin(void)
+{
+    if (cached_margin < 0)
+    {
+        int t = term_columns();
+        int b = border_width();
+        cached_margin = (t - b) / 2;
+        if (cached_margin < 0)
+            cached_margin = 0;
+    }
+    return (cached_margin);
+}
+
+static std::string margin_str(void)
+{
+    return (std::string(left_margin(), ' '));
 }
 
 int display_width(const std::string &s)
@@ -97,13 +116,13 @@ static std::string rep(const char *s, int n)
 
 static void border_row(const std::string &left, const std::string &right)
 {
-    std::cout << U_CYAN << left << rep("═", border_width() - 2) << right << U_RESET << "\n";
+    std::cout << margin_str() << U_CYAN << left << rep("═", border_width() - 2) << right << U_RESET << "\n";
 }
 
 void line(const std::string &text)
 {
     int pad_w = text_width() - display_width(text);
-    std::cout << U_CYAN << "║ " << U_RESET
+    std::cout << margin_str() << U_CYAN << "║ " << U_RESET
               << text
               << std::string(pad_w < 0 ? 0 : pad_w, ' ')
               << U_CYAN << " ║" << U_RESET << "\n";
@@ -121,7 +140,7 @@ void blank(void)
 
 void sep(void)
 {
-    std::cout << U_CYAN << "╠" << rep("═", border_width() - 2) << "╣" << U_RESET << "\n";
+    std::cout << margin_str() << U_CYAN << "╠" << rep("═", border_width() - 2) << "╣" << U_RESET << "\n";
 }
 
 void frame_open(const std::string &title, bool with_logo)

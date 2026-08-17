@@ -105,6 +105,7 @@ private:
     void save_settings(void);
     int piscine_menu(void);
     int stud_or_swim(void);
+    void backtracking_menu(void);
 
     bool setting_dse;
     bool setting_dcc;

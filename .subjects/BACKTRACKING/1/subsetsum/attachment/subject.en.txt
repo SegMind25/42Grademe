@@ -1,0 +1,28 @@
+Assignment name  : subsetsum
+Expected files   : subsetsum.c
+Allowed functions: write, malloc, free, exit
+--------------------------------------------------------------------------------
+
+Write a program that finds a subset of numbers that sum to a target value
+using backtracking.
+
+The program reads from standard input:
+- Line 1: Space-separated list of positive integers
+- Line 2: The target sum
+
+The program prints the subset(s) that sum to the target, one per line.
+Each subset is printed as space-separated numbers in the order they appear
+in the input. Print subsets in the order they are found.
+If no subset sums to the target, print nothing.
+If the number of arguments is not 0, print nothing and exit with 1.
+
+Example:
+
+$> cat input.txt
+3 7 1 5 8
+13
+$> cat input.txt | ./subsetsum
+3 5 5
+3 7 3
+5 8
+$>

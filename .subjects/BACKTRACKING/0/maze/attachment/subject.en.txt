@@ -1,0 +1,35 @@
+Assignment name  : maze
+Expected files   : maze.c
+Allowed functions: write, malloc, free, exit
+--------------------------------------------------------------------------------
+
+Write a program that finds a path through a maze using backtracking.
+
+The program reads an NxN maze from standard input.
+Each line contains N characters: '1' for a path, '0' for a wall.
+The start is always at (0,0) and the end is always at (N-1,N-1).
+
+The program prints the solution as an NxN grid where:
+- 'S' marks the start
+- 'E' marks the end
+- 'X' marks the solution path
+- '.' marks cells not on the path
+
+If no path exists, print nothing and exit with 1.
+If the number of arguments is not 0, print nothing and exit with 1.
+
+Example:
+
+$> cat maze.txt
+11000
+01010
+00001
+11101
+10001
+$> cat maze.txt | ./maze
+SXX00
+0X010
+00001
+111X1
+100XE
+$>

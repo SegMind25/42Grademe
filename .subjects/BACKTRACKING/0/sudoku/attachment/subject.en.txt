@@ -1,0 +1,39 @@
+Assignment name  : sudoku
+Expected files   : sudoku.c
+Allowed functions: write, malloc, free, exit
+--------------------------------------------------------------------------------
+
+Write a program that solves a Sudoku puzzle.
+
+The program reads a 9x9 Sudoku grid from standard input.
+Each line contains 9 digits (0-9), where 0 represents an empty cell.
+The program prints the solved grid in the same format.
+
+If the grid has no solution or is invalid, print nothing and exit with 1.
+If the number of arguments is not 0, print nothing and exit with 1.
+
+The solution must be unique.
+
+Example:
+
+$> cat grid.txt
+530070000
+600195000
+098000060
+800060003
+400803001
+700020006
+060000280
+000419005
+000080079
+$> cat grid.txt | ./sudoku
+534678912
+672195348
+198342567
+859761423
+426853791
+713924856
+961537284
+287419635
+345286179
+$>

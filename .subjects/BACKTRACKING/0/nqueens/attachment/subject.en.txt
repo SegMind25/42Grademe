@@ -1,0 +1,39 @@
+Assignment name  : nqueens
+Expected files   : nqueens.c
+Allowed functions: write, malloc, free, exit
+--------------------------------------------------------------------------------
+
+Write a program that solves the N-Queens problem.
+
+The program takes one argument N (number of queens) and prints ALL
+possible solutions to place N queens on an NxN chessboard so that
+no two queens threaten each other.
+
+A queen threatens another queen if they are on the same row,
+column, or diagonal.
+
+Output format:
+- Each solution consists of N lines, each containing N characters.
+- Use '.' for an empty cell and 'Q' for a queen.
+- Solutions are separated by a single blank line.
+- If the number of arguments is not 1, print nothing and exit with 1.
+
+Example:
+
+$> ./nqueens 4
+.Q..
+...Q
+Q...
+..Q.
+
+..Q.
+Q...
+...Q
+.Q..
+
+$> ./nqueens 2
+
+$> ./nqueens 1
+Q
+
+$>

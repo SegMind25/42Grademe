@@ -208,19 +208,26 @@ int exam::stud_or_swim(void)
         if (vip)
             ui::line_center(U_GOLD + U_BOLD + "★  VIP MEMBER  ★" + U_RESET, U_WHITE);
         else
-            ui::line_center(U_DIM + "Made by " + U_LIME + "jcluzet" + U_RESET + U_DIM + "  ·  free and open-source" + U_RESET, U_WHITE);
+            ui::line_center(U_DIM + "Made by " + U_LIME + "Bekkali - SegMind25" + U_RESET + U_DIM + "  ·  free and open-source" + U_RESET, U_WHITE);
         ui::blank();
         ui::card(1, "PISCINE PART", "Train for the piscine (exam weeks 01-04)");
         ui::blank();
         ui::card(2, "STUDENT PART", "Train for the student exams (ranks 02-06)");
         ui::blank();
-        ui::card(3, "SETTINGS", "Tweak the exam experience");
+        ui::card(3, "BACKTRACKING", "Problem solving with backtracking");
+        ui::blank();
+        ui::card(4, "SETTINGS", "Tweak the exam experience");
         ui::blank();
         ui::frame_close();
-        choice = ui::ask("Enter your choice [1-3]");
-        if (choice == "3")
+        choice = ui::ask("Enter your choice [1-4]");
+        if (choice == "4")
         {
             settings_menu();
+            choice = "-2";
+        }
+        else if (choice == "3")
+        {
+            backtracking_menu();
             choice = "-2";
         }
         else if (choice != "1" && choice != "2")
@@ -332,4 +339,168 @@ int exam::piscine_menu(void)
             choice = "-1";
     }
     return (atoi(choice.c_str()));
+}
+
+// ==> Display the backtracking problem solving section
+void exam::backtracking_menu(void)
+{
+    ui::frame_open("BACKTRACKING PROBLEM SOLVING", true);
+    ui::blank();
+    ui::line_center(U_YELLOW + U_BOLD + "What is Backtracking?" + U_RESET, U_WHITE);
+    ui::blank();
+    ui::line("  " + U_WHITE + "Backtracking is a general algorithmic technique for solving");
+    ui::line("  problems recursively by trying to build a solution incrementally,");
+    ui::line("  one piece at a time, removing those solutions that fail to satisfy");
+    ui::line("  the constraints of the problem at any point in time." + U_RESET);
+    ui::blank();
+    ui::sep();
+    ui::blank();
+    ui::line_center(U_YELLOW + U_BOLD + "How to Solve Backtracking Problems" + U_RESET, U_WHITE);
+    ui::blank();
+    ui::line("  " + U_CYAN + "1." + U_RESET + "  " + U_WHITE + "Define the state space:" + U_RESET + " Understand what a partial solution looks like.");
+    ui::line("  " + U_CYAN + "2." + U_RESET + "  " + U_WHITE + "Choose the next step:" + U_RESET + " Decide which decision to make next.");
+    ui::line("  " + U_CYAN + "3." + U_RESET + "  " + U_WHITE + "Check constraints:" + U_RESET + " If the current path violates any rule, stop.");
+    ui::line("  " + U_CYAN + "4." + U_RESET + "  " + U_WHITE + "Check if solution is complete:" + U_RESET + " If yes, record or return it.");
+    ui::line("  " + U_CYAN + "5." + U_RESET + "  " + U_WHITE + "Recurse:" + U_RESET + " Try the next possible choice and repeat.");
+    ui::line("  " + U_CYAN + "6." + U_RESET + "  " + U_WHITE + "Undo (backtrack):" + U_RESET + " Revert the last decision and try another path.");
+    ui::blank();
+    ui::line("  " + U_DIM + "Common pattern:" + U_RESET + "  " + U_LIME + "for each choice:" + U_RESET);
+    ui::line("      " + U_LIME + "if" + U_RESET + " (valid(choice))      " + U_DIM + "// constraint check" + U_RESET);
+    ui::line("          make(choice);       " + U_DIM + "// apply" + U_RESET);
+    ui::line("          backtrack(state);    " + U_DIM + "// recurse" + U_RESET);
+    ui::line("          undo(choice);        " + U_DIM + "// revert" + U_RESET);
+    ui::blank();
+    ui::sep();
+    ui::blank();
+    ui::line_center(U_MAGENTA + U_BOLD + "Choose a problem to solve:" + U_RESET, U_WHITE);
+    ui::blank();
+    ui::card(1, "N-QUEENS", "Place N queens on NxN board safely");
+    ui::blank();
+    ui::card(2, "SUDOKU SOLVER", "Fill a 9x9 grid following Sudoku rules");
+    ui::blank();
+    ui::card(3, "RAT IN A MAZE", "Find path from start to end in a maze");
+    ui::blank();
+    ui::line("   " + U_RED + "0" + U_RESET + "   " + U_DIM + "Back to main menu" + U_RESET);
+    ui::blank();
+    ui::frame_close();
+    std::string choice = ui::ask("Enter the problem number [1-3]");
+    if (choice == "0")
+        return;
+
+    std::string ex_name;
+    int ex_level = 0;
+    if (choice == "1") { ex_name = "nqueens"; ex_level = 0; }
+    else if (choice == "2") { ex_name = "sudoku"; ex_level = 0; }
+    else if (choice == "3") { ex_name = "maze"; ex_level = 0; }
+    else return;
+
+    std::string path = ".subjects/BACKTRACKING/" + std::to_string(ex_level) + "/" + ex_name + "/";
+
+    system("mkdir rendu 2> /dev/null");
+    system("mkdir subjects 2> /dev/null");
+    system("mkdir .system/grading 2> /dev/null");
+    system(("cp -r " + path + "attachment/* subjects/").c_str());
+    system(("cp " + path + "* .system/grading/ >/dev/null 2>&1").c_str());
+    system(("mkdir rendu/" + ex_name + " 2> /dev/null").c_str());
+
+    ui::clear();
+    ui::frame_open("BACKTRACKING: " + ex_name, false);
+    ui::blank();
+    std::ifstream subj("subjects/subject.en.txt");
+    std::string line;
+    while (std::getline(subj, line))
+        ui::line("  " + U_WHITE + line + U_RESET);
+    subj.close();
+    ui::blank();
+    ui::sep();
+    ui::blank();
+    ui::line("  " + U_DIM + "Put your solution in:" + U_RESET + "  " + U_LIME + current_path() + "/rendu/" + ex_name + "/" + U_RESET);
+    ui::line("  " + U_DIM + "Then type" + U_RESET + "  " + U_LIME + "grademe" + U_RESET + "  " + U_DIM + "to be graded." + U_RESET);
+    ui::blank();
+    ui::frame_close();
+
+    while (1)
+    {
+        char *rline = readline("\e[96m┌─\e[0m\e[93m backtracking \e[0m\e[96m─\e[0m\e[97m›\e[0m ");
+        if (!rline) break;
+        std::string input = rline;
+        free(rline);
+        while (!input.empty() && input.back() == ' ') input.pop_back();
+        while (!input.empty() && input.front() == ' ') input.erase(input.begin());
+        if (input.empty()) continue;
+        add_history(input.c_str());
+        if (input == "grademe")
+        {
+            system("bash .system/grading/tester.sh");
+            if (file_exists(".system/grading/passed"))
+            {
+                ui::clear();
+                ui::frame_open("SUCCESS", false);
+                ui::blank();
+                ui::line_center(U_GREEN + U_BOLD + "✔  ALL TESTS PASSED  ✔" + U_RESET, U_WHITE);
+                ui::blank();
+                ui::line("   " + U_DIM + "Exercise" + U_RESET + "  " + U_WHITE + U_BOLD + ex_name + U_RESET);
+                ui::blank();
+                ui::frame_close();
+                system("rm -f .system/grading/passed");
+                ui::press_enter("Press Enter to continue...");
+                break;
+            }
+            else
+            {
+                ui::clear();
+                ui::frame_open("FAILURE", false);
+                ui::blank();
+                ui::line_center(U_RED + U_BOLD + "✘  TESTS FAILED  ✘" + U_RESET, U_WHITE);
+                ui::blank();
+                if (file_exists("traceback"))
+                {
+                    std::ifstream tb("traceback");
+                    std::string tline;
+                    while (std::getline(tb, tline))
+                        ui::line("  " + U_RED + tline + U_RESET);
+                    tb.close();
+                    system("rm -f traceback");
+                }
+                ui::blank();
+                ui::frame_close();
+                ui::press_enter("Press Enter to try again...");
+                ui::clear();
+                ui::frame_open("BACKTRACKING: " + ex_name, false);
+                ui::blank();
+                ui::line("  " + U_DIM + "Put your solution in:" + U_RESET + "  " + U_LIME + current_path() + "/rendu/" + ex_name + "/" + U_RESET);
+                ui::line("  " + U_DIM + "Then type" + U_RESET + "  " + U_LIME + "grademe" + U_RESET + "  " + U_DIM + "to be graded." + U_RESET);
+                ui::blank();
+                ui::frame_close();
+            }
+        }
+        else if (input == "subject" || input == "status")
+        {
+            ui::clear();
+            ui::frame_open("SUBJECT: " + ex_name, false);
+            ui::blank();
+            std::ifstream subj2("subjects/subject.en.txt");
+            std::string sl;
+            while (std::getline(subj2, sl))
+                ui::line("  " + U_WHITE + sl + U_RESET);
+            subj2.close();
+            ui::blank();
+            ui::frame_close();
+        }
+        else if (input == "help")
+        {
+            ui::clear();
+            ui::frame_open("HELP", false);
+            ui::blank();
+            ui::line("   " + U_YELLOW + "grademe" + U_RESET + "     " + U_WHITE + "grade your exercise" + U_RESET);
+            ui::line("   " + U_YELLOW + "subject" + U_RESET + "      " + U_WHITE + "display the subject" + U_RESET);
+            ui::line("   " + U_YELLOW + "finish" + U_RESET + "       " + U_WHITE + "go back to main menu" + U_RESET);
+            ui::blank();
+            ui::frame_close();
+        }
+        else if (input == "finish" || input == "exit" || input == "quit")
+            break;
+        else
+            ui::plain(U_RED + "  Unknown command. Type " + U_LIME + "help" + U_RESET + U_RED + " for help." + U_RESET);
+    }
 }

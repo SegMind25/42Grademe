@@ -1,0 +1,36 @@
+Assignment name  : wordsearch
+Expected files   : wordsearch.c
+Allowed functions: write, malloc, free, exit
+--------------------------------------------------------------------------------
+
+Write a program that searches for a word in a 2D grid using backtracking.
+
+The program reads from standard input:
+- Line 1: The word to search for
+- Line 2: Number of rows (N)
+- Line 3: Number of columns (M)
+- Following N lines: M characters each (the grid)
+
+The program prints the position of the first occurrence of the word.
+Format: (row,col)-(row,col) where (row,col) is the start and end position.
+Rows and columns are 0-indexed.
+
+If the word is not found, print "Word not found" and exit with 0.
+If the number of arguments is not 0, print nothing and exit with 1.
+
+The word can be found in 8 directions: right, left, down, up,
+and the 4 diagonals. Each cell can be used only once per match.
+
+Example:
+
+$> cat grid.txt
+HELLOWORLD
+5 5
+HELLO
+WORLD
+BAKED
+ALMOND
+TORINO
+$> cat grid.txt | ./wordsearch
+(0,0)-(0,4)
+$>

@@ -1,23 +1,39 @@
-Assignment name  : aff_l
-Expected files   : aff_l.c
-Version          : 1
-Allowed functions: write
+Assignment name  : nqueens
+Expected files   : nqueens.c
+Allowed functions: write, malloc, free, exit
 --------------------------------------------------------------------------------
 
-Write a program that takes a string, and displays the first 'l' character it
-encounters in it, followed by a newline. If there are no 'l' characters in the
-string, the program diplays 'l' followed by a newline. If the number of parameters is not
-1, the program displays 'l' followed by a newline.
+Write a program that solves the N-Queens problem.
+
+The program takes one argument N (number of queens) and prints ALL
+possible solutions to place N queens on an NxN chessboard so that
+no two queens threaten each other.
+
+A queen threatens another queen if they are on the same row,
+column, or diagonal.
+
+Output format:
+- Each solution consists of N lines, each containing N characters.
+- Use '.' for an empty cell and 'Q' for a queen.
+- Solutions are separated by a single blank line.
+- If the number of arguments is not 1, print nothing and exit with 1.
 
 Example:
 
-$> ./aff_l "abc" | cat -e
-l$
-$> ./aff_l 'RaInB0w d4Sh!' | cat -e
-l$
-$> ./aff_l 'ThE C4k3 Is a L|3' | cat -e
-l$
-$> ./aff_l 'C0cOnUt 0N th3 b3AcH' | cat -e
-l$
-$> ./aff_l | cat -e
-l$
+$> ./nqueens 4
+.Q..
+...Q
+Q...
+..Q.
+
+..Q.
+Q...
+...Q
+.Q..
+
+$> ./nqueens 2
+
+$> ./nqueens 1
+Q
+
+$>

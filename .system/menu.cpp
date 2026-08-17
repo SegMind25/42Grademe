@@ -204,18 +204,14 @@ int exam::stud_or_swim(void)
     while (choice == "-1" || choice == "-2")
     {
         ui::frame_open("MAIN MENU", true);
-        ui::blank();
         if (vip)
             ui::line_center(U_GOLD + U_BOLD + "★  VIP MEMBER  ★" + U_RESET, U_WHITE);
         else
             ui::line_center(U_DIM + "Made by " + U_LIME + "Bekkali - SegMind25" + U_RESET + U_DIM + "  ·  free and open-source" + U_RESET, U_WHITE);
         ui::blank();
         ui::card(1, "PISCINE PART", "Train for the piscine (exam weeks 01-04)");
-        ui::blank();
         ui::card(2, "STUDENT PART", "Train for the student exams (ranks 02-06)");
-        ui::blank();
         ui::card(3, "BACKTRACKING", "Problem solving with backtracking");
-        ui::blank();
         ui::card(4, "SETTINGS", "Tweak the exam experience");
         ui::blank();
         ui::frame_close();
@@ -251,20 +247,15 @@ void exam::settings_menu(void)
         if (!logname)
             logname = (char *)"unknown";
         ui::frame_open("SETTINGS", false);
-        ui::blank();
         ui::line("   " + U_RED + "0" + U_RESET + "   " + U_DIM + "Back" + U_RESET);
         ui::sep();
-        ui::blank();
         ui::line("   " + U_YELLOW + "1" + U_RESET + "   " + U_WHITE + U_BOLD + "Enable exercises you already passed" + U_RESET
                  + (setting_dse ? ui::badge("ON", U_GREEN) : ui::badge("OFF", U_RED)));
-        ui::blank();
         ui::line("   " + U_YELLOW + "2" + U_RESET + "   " + U_WHITE + U_BOLD + "Enable cheat commands" + U_RESET
                  + (setting_dcc ? ui::badge("ON", U_GREEN) : ui::badge("OFF", U_RED)));
-        ui::blank();
         ui::line("   " + U_YELLOW + "3" + U_RESET + "   " + U_WHITE + U_BOLD + "Anonymise data sending to LOG" + U_RESET
                  + (setting_an ? ui::badge("ON", U_GREEN) : ui::badge("OFF", U_RED)));
         ui::line("       " + U_DIM + "> Name sent to log is currently: " + U_WHITE + std::string(lognameexam) + U_RESET);
-        ui::blank();
         ui::frame_close();
         input = ui::ask("Enter your choice [0-3]");
         if (input == "1")
@@ -294,17 +285,11 @@ int exam::stud_menu(void)
     while (choice == "-1" || choice == "-2")
     {
         ui::frame_open("STUDENT PART", false);
-        ui::blank();
         ui::card(2, "EXAM RANK 02", "Functions & basic algorithms");
-        ui::blank();
         ui::card(3, "EXAM RANK 03", "Intermediate algorithms");
-        ui::blank();
         ui::card(4, "EXAM RANK 04", "Data structures & memory");
-        ui::blank();
         ui::card(5, "EXAM RANK 05", "Advanced algorithms");
-        ui::blank();
         ui::card(6, "EXAM RANK 06", "The final boss");
-        ui::blank();
         ui::line("   " + U_RED + "0" + U_RESET + "   " + U_DIM + "Back to menu" + U_RESET);
         ui::blank();
         ui::frame_close();
@@ -322,15 +307,10 @@ int exam::piscine_menu(void)
     while (choice == "-1" || choice == "-2")
     {
         ui::frame_open("PISCINE PART", false);
-        ui::blank();
         ui::card(1, "EXAM WEEK 01", "Easy warm-up exercises");
-        ui::blank();
         ui::card(2, "EXAM WEEK 02", "Getting comfortable");
-        ui::blank();
         ui::card(3, "EXAM WEEK 03", "Easy / Medium collection");
-        ui::blank();
         ui::card(4, "EXAM WEEK 04", "Medium / Hard collection");
-        ui::blank();
         ui::line("   " + U_RED + "0" + U_RESET + "   " + U_DIM + "Back to menu" + U_RESET);
         ui::blank();
         ui::frame_close();
@@ -345,45 +325,25 @@ int exam::piscine_menu(void)
 void exam::backtracking_menu(void)
 {
     ui::frame_open("BACKTRACKING PROBLEM SOLVING", true);
-    ui::blank();
     ui::line_center(U_YELLOW + U_BOLD + "What is Backtracking?" + U_RESET, U_WHITE);
-    ui::blank();
-    ui::line("  " + U_WHITE + "Backtracking is a general algorithmic technique for solving");
-    ui::line("  problems recursively by trying to build a solution incrementally,");
-    ui::line("  one piece at a time, removing those solutions that fail to satisfy");
-    ui::line("  the constraints of the problem at any point in time." + U_RESET);
-    ui::blank();
+    ui::line("  " + U_WHITE + "A technique for solving problems by building solutions");
+    ui::line("  incrementally, backtracking when a constraint is violated." + U_RESET);
     ui::sep();
-    ui::blank();
-    ui::line_center(U_YELLOW + U_BOLD + "How to Solve Backtracking Problems" + U_RESET, U_WHITE);
-    ui::blank();
-    ui::line("  " + U_CYAN + "1." + U_RESET + "  " + U_WHITE + "Define the state space:" + U_RESET + " Understand what a partial solution looks like.");
-    ui::line("  " + U_CYAN + "2." + U_RESET + "  " + U_WHITE + "Choose the next step:" + U_RESET + " Decide which decision to make next.");
-    ui::line("  " + U_CYAN + "3." + U_RESET + "  " + U_WHITE + "Check constraints:" + U_RESET + " If the current path violates any rule, stop.");
-    ui::line("  " + U_CYAN + "4." + U_RESET + "  " + U_WHITE + "Check if solution is complete:" + U_RESET + " If yes, record or return it.");
-    ui::line("  " + U_CYAN + "5." + U_RESET + "  " + U_WHITE + "Recurse:" + U_RESET + " Try the next possible choice and repeat.");
-    ui::line("  " + U_CYAN + "6." + U_RESET + "  " + U_WHITE + "Undo (backtrack):" + U_RESET + " Revert the last decision and try another path.");
-    ui::blank();
-    ui::line("  " + U_DIM + "Common pattern:" + U_RESET + "  " + U_LIME + "for each choice:" + U_RESET);
-    ui::line("      " + U_LIME + "if" + U_RESET + " (valid(choice))      " + U_DIM + "// constraint check" + U_RESET);
-    ui::line("          make(choice);       " + U_DIM + "// apply" + U_RESET);
-    ui::line("          backtrack(state);    " + U_DIM + "// recurse" + U_RESET);
-    ui::line("          undo(choice);        " + U_DIM + "// revert" + U_RESET);
-    ui::blank();
+    ui::line_center(U_YELLOW + U_BOLD + "How to Solve" + U_RESET, U_WHITE);
+    ui::line("  " + U_CYAN + "1." + U_RESET + " Define state space  " + U_CYAN + "2." + U_RESET + " Choose next step");
+    ui::line("  " + U_CYAN + "3." + U_RESET + " Check constraints  " + U_CYAN + "4." + U_RESET + " Check if complete");
+    ui::line("  " + U_CYAN + "5." + U_RESET + " Recurse            " + U_CYAN + "6." + U_RESET + " Undo (backtrack)");
     ui::sep();
-    ui::blank();
     ui::line_center(U_MAGENTA + U_BOLD + "Choose a problem to solve:" + U_RESET, U_WHITE);
-    ui::blank();
     ui::card(1, "N-QUEENS", "Place N queens on NxN board safely");
-    ui::blank();
     ui::card(2, "SUDOKU SOLVER", "Fill a 9x9 grid following Sudoku rules");
-    ui::blank();
     ui::card(3, "RAT IN A MAZE", "Find path from start to end in a maze");
-    ui::blank();
+    ui::card(4, "WORDSEARCH", "Find all words in a grid (level 1)");
+    ui::card(5, "SUBSET SUM", "Find subsets that sum to a target (level 1)");
     ui::line("   " + U_RED + "0" + U_RESET + "   " + U_DIM + "Back to main menu" + U_RESET);
     ui::blank();
     ui::frame_close();
-    std::string choice = ui::ask("Enter the problem number [1-3]");
+    std::string choice = ui::ask("Enter the problem number [1-5]");
     if (choice == "0")
         return;
 
@@ -392,6 +352,8 @@ void exam::backtracking_menu(void)
     if (choice == "1") { ex_name = "nqueens"; ex_level = 0; }
     else if (choice == "2") { ex_name = "sudoku"; ex_level = 0; }
     else if (choice == "3") { ex_name = "maze"; ex_level = 0; }
+    else if (choice == "4") { ex_name = "wordsearch"; ex_level = 1; }
+    else if (choice == "5") { ex_name = "subsetsum"; ex_level = 1; }
     else return;
 
     std::string path = ".subjects/BACKTRACKING/" + std::to_string(ex_level) + "/" + ex_name + "/";

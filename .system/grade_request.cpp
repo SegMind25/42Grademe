@@ -261,7 +261,7 @@ void exam::grade_request(bool i)
             std::string trace_name = std::to_string(level) + "-" + std::to_string(current_ex->get_assignement()) + "_" + current_ex->get_name() + ".trace";
             std::string cmd_system_call = "mv traceback traces/" + trace_name;
             system(cmd_system_call.c_str());
-            ui::line("  Trace saved to " + U_LIME + current_path() + "/traces/" + trace_name + U_RESET);
+            ui::line("  Trace saved to " + U_LIME + ui::truncate(current_path() + "/traces/" + trace_name, ui::text_width() - 17) + U_RESET);
         }
         else
         {

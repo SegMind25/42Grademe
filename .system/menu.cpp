@@ -108,8 +108,13 @@ void exam::info(void)
              + "  for  " + U_LIME + U_BOLD + std::to_string((int)(((double)level + 1) / (double)level_max * 100)) + " xp" + U_RESET);
     ui::line("  " + U_DIM + "Attempt" + U_RESET + "  " + U_YELLOW + std::to_string(current_ex->get_assignement()) + U_RESET);
     ui::blank();
-    ui::line("  " + U_DIM + "Subject location" + U_RESET + "  " + U_LIME + current_path() + "/subjects/subject.en.txt" + U_RESET);
-    ui::line("  " + U_DIM + "Rendu location" + U_RESET + "  " + U_RED + current_path() + "/rendu/" + current_ex->get_name() + "/" + U_RESET);
+    {
+        int max_p = ui::text_width() - 20;
+        std::string subj = current_path() + "/subjects/subject.en.txt";
+        std::string rendu = current_path() + "/rendu/" + current_ex->get_name() + "/";
+        ui::line("  " + U_DIM + "Subject location" + U_RESET + "  " + U_LIME + ui::truncate(subj, max_p) + U_RESET);
+        ui::line("  " + U_DIM + "Rendu location" + U_RESET + "  " + U_RED + ui::truncate(rendu, max_p) + U_RESET);
+    }
     ui::line("  " + U_DIM + "Git needed" + U_RESET + "  " + U_GRAY + "No — you don't need git here." + U_RESET);
     ui::blank();
     {
@@ -154,8 +159,13 @@ void exam::infovip(void)
              + "  for  " + U_LIME + U_BOLD + std::to_string((int)(((double)level + 1) / (double)level_max * 100)) + " xp" + U_RESET);
     ui::line("  " + U_DIM + "Attempt" + U_RESET + "  " + U_YELLOW + std::to_string(current_ex->get_assignement()) + U_RESET);
     ui::blank();
-    ui::line("  " + U_DIM + "Subject location" + U_RESET + "  " + U_LIME + current_path() + "/subjects/subject.en.txt" + U_RESET);
-    ui::line("  " + U_DIM + "Rendu location" + U_RESET + "  " + U_RED + current_path() + "/rendu/" + current_ex->get_name() + "/" + U_RESET);
+    {
+        int max_p = ui::text_width() - 20;
+        std::string subj = current_path() + "/subjects/subject.en.txt";
+        std::string rendu = current_path() + "/rendu/" + current_ex->get_name() + "/";
+        ui::line("  " + U_DIM + "Subject location" + U_RESET + "  " + U_LIME + ui::truncate(subj, max_p) + U_RESET);
+        ui::line("  " + U_DIM + "Rendu location" + U_RESET + "  " + U_RED + ui::truncate(rendu, max_p) + U_RESET);
+    }
     ui::line("  " + U_DIM + "Git needed" + U_RESET + "  " + U_GRAY + "No — you don't need git here." + U_RESET);
     ui::blank();
     {

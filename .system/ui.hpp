@@ -59,6 +59,7 @@ void line_kv(const std::string &label, const std::string &value,
 // ---- text helpers ----
 std::string center(const std::string &s, int cw = -1);
 std::string pad(const std::string &s, int cw = -1);
+std::string truncate(const std::string &s, int max_w);
 
 // ---- decorative components ----
 void logo(void);                                        // big "42EXAM" block

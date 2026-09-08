@@ -90,6 +90,41 @@ std::string pad(const std::string &s, int cw)
     return (s + std::string(cw - w, ' '));
 }
 
+std::string truncate(const std::string &s, int max_w)
+{
+    if (max_w <= 0)
+        return ("");
+    int w = display_width(s);
+    if (w <= max_w)
+        return (s);
+    int target = max_w - 3;
+    if (target <= 0)
+        return (s.substr(0, max_w));
+    std::string result;
+    int rw = 0;
+    for (size_t i = 0; i < s.size(); i++)
+    {
+        unsigned char c = (unsigned char)s[i];
+        if (c == '\e' && i + 1 < s.size() && s[i + 1] == '[')
+        {
+            while (i < s.size() && s[i] != 'm')
+                result += s[i++];
+            if (i < s.size())
+                result += s[i];
+        }
+        else if ((c & 0xC0) == 0x80)
+            result += s[i];
+        else
+        {
+            if (rw >= target)
+                break;
+            result += s[i];
+            rw++;
+        }
+    }
+    return (result + "...");
+}
+
 std::string center(const std::string &s, int cw)
 {
     if (cw < 0)
@@ -145,6 +180,8 @@ void sep(void)
 
 void frame_open(const std::string &title, bool with_logo)
 {
+    cached_border = 0;
+    cached_margin = -1;
     clear();
     border_row(UI_TL, UI_TR);
     blank();
@@ -187,17 +224,10 @@ static const char *LOGO_L[] = {
     "     |__|        \\/         \\/      \\/     \\/      \\/ ",
 };
 
-static const char *LOGO_R[] = {
-    "                      ",
-    "                      ",
-    "                      ",
-    "                      ",
-    "                      ",
-    "                      ",
-};
-
 void logo(void)
 {
+    if (border_width() < 58)
+        return;
     for (int i = 0; i < 6; i++)
     {
         std::string row = std::string(U_CYAN) + U_BOLD + LOGO_L[i] + U_RESET;
@@ -213,7 +243,9 @@ static std::string card_row(const std::string &content, int cw)
 
 void card(int num, const std::string &title, const std::string &desc)
 {
-    int cw = 50;
+    int cw = std::min(border_width() - 14, 50);
+    if (cw < 30)
+        cw = 30;
     std::string num_s = std::to_string(num);
     line_center("┌" + rep("─", cw - 2) + "┐", U_CYAN);
     line_center(card_row(std::string(U_YELLOW) + U_BOLD + "[" + num_s + "]" + U_RESET

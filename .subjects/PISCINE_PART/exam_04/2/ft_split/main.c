@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/06 16:36:07 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 16:36:09 by angavrel         ###   ########.fr       */
+/*   Created: 2022/11/06 15:58:50 by pandalaf          #+#    #+#             */
+/*   Updated: 2022/11/06 15:59:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rpn_calc.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-int	main(int ac, char **av)
+char	**ft_split(char *str);
+
+int main(int argc, char **argv)
 {
-	if (ac == 2 && check_input(av[1]))
-		rpn_calc(av[1]);
-	else
-		printf("Error\n");
-	return (0);
+	char	**split;
+	int		i;
+
+	if (argc == 2)
+	{
+		split = ft_split(argv[1]);
+			printf("%s ", split[0]);
+		i = 1;
+		while (split[i] != 0)
+		{
+			printf("%s ", split[i]);
+			i++;
+		}
+		printf("%s", split[i]);
+	}
+	printf("\n");
+    return (0);
 }

@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is.c                                               :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcluzet <jcluzet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/06 16:35:57 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 16:36:00 by angavrel         ###   ########.fr       */
+/*   Created: 2022/05/21 02:22:36 by jcluzet           #+#    #+#             */
+/*   Updated: 2022/05/21 02:23:23 by jcluzet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rpn_calc.h"
+#include <stdio.h>
+#include <stdlib.h>
+int		ft_atoi_base(const char *str, int str_base);
 
-int	is_op(int c)
+int main(int argc, char **argv)
 {
-	return (c == '+' ||
-			c == '-' ||
-			c == '*' ||
-			c == '/' ||
-			c == '%');
-}
-
-int	is_digit(int c)
-{
-	return ('0' <= c && c <= '9');
-}
-
-int	is_space(int c)
-{
-	return (c == 32);
+    if (argc == 3)
+    {
+        printf("%d\n", ft_atoi_base(argv[1], atoi(argv[2])));
+    }
+    return (0);
 }

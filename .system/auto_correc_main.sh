@@ -26,7 +26,7 @@ gcc -o source "$1" $MAIN 2>/dev/null
 ./source "${@:3}" | cat -e > sourcexam
 rm -f source final finalexam .dev
 
-gcc -o final "$FILE" $MAIN 2>.dev
+gcc -I. -o final "$FILE" $MAIN 2>.dev
 compiled=0
 timeout=0
 if [ -e final ]; then

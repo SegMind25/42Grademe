@@ -1,3 +1,8 @@
+Assignment name  : lcm
+Expected files   : lcm.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
 Write a function who takes two unsigned int as parameters and returns the
 computed LCM of those parameters.
 

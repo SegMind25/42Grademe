@@ -35,7 +35,7 @@
 - [x] Subject drawn at random
 - [x] Exponential waiting before correction
 - [x] Timed sessions (X hours maximum)
-- [x] Automatic correction — fully offline
+- [x] Automatic correction — fully offline, a grader for every exercise
 - [x] Traceback available for each test
 - [x] Infinite loop detection (all exercises, 20s timeout)
 - [x] Exam backup & restore, time limit enforced

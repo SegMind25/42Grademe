@@ -6,11 +6,12 @@
 #    By: jcluzet <jcluzet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/20 02:26:11 by jcluzet           #+#    #+#              #
-#    Updated: 2022/09/01 23:56:05 by jcluzet          ###   ########.fr        #
+#    Updated: 2022/09/02 00:17:24 by jcluzet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILE='do-op.c'
+ASSIGN='do_op/*.c'
 
 
 index=0
@@ -26,7 +27,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 }  &>../.system/grading/traceback
 {
 ./final | cat -e > finalexam        #TESTING
@@ -57,7 +58,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "123" "*" 456 | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -85,7 +86,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "9828" "/" 234  | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -111,7 +112,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "1" "+" "-43"  | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -138,7 +139,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "42" "/" "-42" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -167,7 +168,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "42" "*" "-42" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final

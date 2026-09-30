@@ -15,6 +15,13 @@
 # same arguments and writes a traceback in .system/grading/ on any difference.
 
 FILE="../../rendu/$2/$1"
+REF="$1"
+# ALL_C=1 (subjects with "Expected files: *.c, *.h"): compile every .c file
+# of the rendu folder, and every .c file of the reference.
+if [ "$ALL_C" = "1" ]; then
+    FILE="../../rendu/$2/*.c"
+    REF="*.c"
+fi
 
 TIMEOUT_SEC=20
 
@@ -22,11 +29,11 @@ rm -f .system/grading/traceback
 
 cd .system/grading || exit 1
 
-gcc -o source "$1" 2>/dev/null
+gcc -o source $REF 2>/dev/null     # unquoted: may be a glob
 ./source "${@:3}" | cat -e > sourcexam
 rm -f source final finalexam .dev
 
-gcc -o final "$FILE" 2>.dev
+gcc -o final $FILE 2>.dev
 compiled=0
 timeout=0
 if [ -e final ]; then

@@ -1,45 +1,39 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/03 22:36:30 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/08 17:20:30 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
-#include <stdio.h> //malloc protection isn't required for the exam
+
+/* reference: base 10 keeps the sign, other bases read the value as unsigned */
 
 char	*ft_itoa_base(int value, int base)
 {
-	char	*s;
-	long	n;
-	int		sign;
-	int		i;
+	char			*digits;
+	char			buf[34];
+	char			*res;
+	unsigned int	n;
+	int				neg;
+	int				i;
+	int				len;
 
-	n = (value < 0) ? -(long)value : value;
-	sign = (value < 0 && base == 10) ? -1 : 0;
-	i = (sign == -1) ? 2 : 1;
-	while ((n /= base) >= 1)
-		i++;
-	s = (char*)malloc(sizeof(char) * (i + 1));
-	s[i] = '\0';
-	n = (value < 0) ? -(long)value : value;
-	while (i-- + sign)
+	digits = "0123456789ABCDEF";
+	if (base < 2 || base > 16)
+		return (NULL);
+	neg = (base == 10 && value < 0);
+	n = neg ? -(unsigned int)value : (unsigned int)value;
+	i = 33;
+	buf[i] = '\0';
+	if (n == 0)
+		buf[--i] = '0';
+	while (n > 0)
 	{
-		s[i] = (n % base < 10) ? n % base + '0' : n % base + 'A' - 10;
+		buf[--i] = digits[n % base];
 		n /= base;
 	}
-	(i == 0) ? s[i] = '-' : 0;
-	return (s);
+	if (neg)
+		buf[--i] = '-';
+	len = 33 - i;
+	res = malloc(len + 1);
+	if (!res)
+		return (NULL);
+	res[len] = '\0';
+	while (len-- > 0)
+		res[len] = buf[i + len];
+	return (res);
 }
-
-int		main(int ac, char **av)//
-{//
-	if (ac == 3)//
-		printf("%s", ft_itoa_base(atoi(av[1]), atoi(av[2])));//
-	return (1);//
-}//

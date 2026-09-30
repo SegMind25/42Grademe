@@ -10,30 +10,28 @@ exercise::exercise(void) {
 // ==> Function to change exercise
 int exam::change_ex(void)
 {
-    backup = false;
+    // after restoring a backup the level list isn't loaded yet
+    if (list_ex_lvl.empty())
+        list_ex_lvl = list_dir();
     // if there is only 1 exercise, we can't change it
-    if (list_ex_lvl.size() == 1)
+    if (list_ex_lvl.size() <= 1)
     {
         ui::plain(U_YELLOW + "⚠  You can't change exercise, there is only one exercise in this level" + U_RESET);
         return (0);
     }
-    clean_all();
-    system("clear");
-    ui::plain(U_LIME + "  > You have generated a new exercise" + U_RESET);
+    backup = false;
     changex = 1;
-    delete current_ex;
+    clean_all();
     start_new_ex();
+    ui::plain(U_LIME + "✔  You have generated a new exercise" + U_RESET);
     return (0);
 }
 
 // ==> Set good folder and copy subjects, etc...
 bool exam::prepare_current_ex(void)
 {
-    if (level == level_max)
-    {
-        ui::plain(U_YELLOW + "⚠  You have reached the maximum level of this exam." + U_RESET);
+    if (level >= level_max)
         return (false);
-    }
     if (!file_exists(get_path()))
     {
         ui::plain(U_RED + "✘  Error: Cannot load exercise, unable to find valid path" + U_RESET);
@@ -44,36 +42,30 @@ bool exam::prepare_current_ex(void)
     clean_all();
 
     // create directory for the current exercise
-    system("mkdir rendu 2> /dev/null");
-    system("mkdir subjects 2> /dev/null");
-    system("mkdir .system/grading 2> /dev/null");
+    ensure_dir("rendu");
+    ensure_dir("subjects");
+    ensure_dir(".system/grading");
 
-    // copy all the files in the current get_path() + attachment/* to the subjects directory
-    std::string cmd_system_call = "cp -r " + get_path() + "/attachment/*" + " subjects/";
+    // subject (attachment/*) goes to subjects/, grading files to .system/grading/
+    std::string cmd_system_call = "cp -r " + get_path() + "attachment/* subjects/ 2>/dev/null";
     system(cmd_system_call.c_str());
-
-    // copy all the files in the current get_path() without the attachment folder to the .system/grading/ directory
     cmd_system_call = "cp " + get_path() + "* .system/grading/ >/dev/null 2>&1";
     system(cmd_system_call.c_str());
-
-    return (false);
+    return (true);
 }
 
 // ==> Randomize exercise (give 1 into list)
-exercise *randomize_exercise(std::map<int, exercise> list, bool remove_success)
+// keep_success == false removes exercises listed in success/success_ex
+exercise randomize_exercise(std::map<int, exercise> list, bool keep_success)
 {
-    // if setting_dse is 1, remove all exercise in list having a name in .system/exam_token/success_ex 
-    if (remove_success == 0)
+    if (!keep_success)
     {
         std::ifstream success_ex("success/success_ex");
         std::string line;
-        std::string name;
-        int assignement;
-        int level_ex;
-        int time_bef_grade;
         while (std::getline(success_ex, line))
         {
             std::istringstream iss(line);
+            std::string name;
             iss >> name;
             for (std::map<int, exercise>::iterator it = list.begin(); it != list.end(); it++)
             {
@@ -84,39 +76,27 @@ exercise *randomize_exercise(std::map<int, exercise> list, bool remove_success)
                 }
             }
         }
-        success_ex.close();
     }
 
-
-    // Check if there is still exercise in the list
-    std::map<int, exercise>::iterator it = list.begin();
-    if (list.size() == 0)
+    if (list.empty())
     {
-        ui::clear();
         ui::frame_open("NO EXERCISES LEFT", false);
         ui::blank();
-        ui::line(U_RED + "  Error: all exercises for this level have been done." + U_RESET);
+        ui::line(U_RED + "  You already passed every exercise of this level." + U_RESET);
         ui::blank();
-        ui::line("  Please set to " + U_RED + U_BOLD + "OFF" + U_RESET + " option 1 in settings.");
-        ui::line("  Or edit/delete your success/success_ex file.");
-        ui::line("  Then relaunch 42_EXAM and recover your exam.");
+        ui::line("  Turn " + U_GREEN + U_BOLD + "ON" + U_RESET + " option 1 (" + U_WHITE + "Enable exercises you already passed" + U_RESET + ") in settings,");
+        ui::line("  or edit/delete the file " + U_LIME + "success/success_ex" + U_RESET + ".");
+        ui::line("  Then relaunch 42_EXAM to recover your exam.");
         ui::blank();
         ui::frame_close();
         exit(0);
     }
-    bool dosrandom = true;
-    // if list contain rostring, remove it
-    for (std::map<int, exercise>::iterator it = list.begin(); it != list.end(); it++)
-    {
-        if (it->second.get_name() == "rostring")
-            dosrandom = false;
-    }
-    if (dosrandom)
-        srand(time(NULL));
-    int random = rand() % list.size();
-    for (int i = 0; i < random; i++)
-        it++;
-    return (&it->second);
+
+    static std::mt19937 gen(std::random_device{}() ^ (unsigned int)time(NULL));
+    std::uniform_int_distribution<size_t> distr(0, list.size() - 1);
+    std::map<int, exercise>::iterator it = list.begin();
+    std::advance(it, distr(gen));
+    return (it->second);
 }
 
 exercise::exercise(int level, std::string ex_name) {

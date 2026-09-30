@@ -5,10 +5,6 @@
 #include <iostream>
 #include <map>
 
-// include for readline
-#include <readline/readline.h>
-#include <readline/history.h>
-
 #include <signal.h>
 #include <iostream>
 #include <fstream>
@@ -22,45 +18,43 @@
 #include <string.h>
 #include <sstream>
 #include <random>
+#include <sys/stat.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#define BOLD std::string("\e[1m")
-#define RESET std::string("\e[0m")
-#define CYAN std::string("\e[36m")
-#define UNDERLINE std::string("\e[4m")
-#define WHITE std::string("\e[97m")
-#define LIME std::string("\e[92m")
-#define RED std::string("\e[91m")
-#define MAGENTA std::string("\e[95m")
-#define YELLOW std::string("\e[93m")
-#define REMOVE_LINE std::string("\e[1A\e[K")
+#define BOLD std::string("\033[1m")
+#define RESET std::string("\033[0m")
+#define CYAN std::string("\033[36m")
+#define UNDERLINE std::string("\033[4m")
+#define WHITE std::string("\033[97m")
+#define LIME std::string("\033[92m")
+#define RED std::string("\033[91m")
+#define MAGENTA std::string("\033[95m")
+#define YELLOW std::string("\033[93m")
+#define REMOVE_LINE std::string("\033[1A\033[K")
+
+#define TOKEN_DIR ".system/exam_token"
+#define TOKEN_FILE ".system/exam_token/current_token.txt"
+#define SETTINGS_FILE ".system/exam_token/.settings"
 
 std::string generate_unique_id();
 std::string current_path(void);
 std::string remaining_time(time_t end_time);
-std::string lastupdate(time_t end_time);
-std::string remaining_time(time_t end_time);
-std::string current_path(void);
-exercise *randomize_exercise(std::map<int, exercise> list, bool remove_success);
-exam restore_data(void);
+exercise randomize_exercise(std::map<int, exercise> list, bool keep_success);
 bool file_exists(std::string path);
+void ensure_dir(const std::string &path);
+void open_url(const std::string &url);
+void send_data(const std::string &event);
 
 void reset_folder(void);
 void connexion(void);
 void sigc(int sig);
 void sigd(void);
-void sigd(void);
-
-int stud_or_swim(void);
-int piscine_menu(void);
-int stud_menu(void);
 
 class exam
 {
 public:
     exam(void);
-    exam(exam const &src);
     ~exam(void);
     void info(void);
     void ask_param(void);
@@ -72,17 +66,16 @@ public:
     void store_data();
     void up_lvl(void);
     void exam_help();
+    void check_vip(void);
     std::string get_path(void);
     time_t get_end_time(void);
     time_t get_start_time(void);
-    void infovip(void);
     int change_ex(void);
     void exam_prompt(void);
     bool prepare_current_ex(void);
     bool clean_all(void);
     void restore_data(void);
     bool start_new_ex(void);
-    exam &operator=(exam const &src);
     std::map<int, exercise> list_dir();
     std::map<int, exercise> list_ex_lvl;
     std::map<int, exercise> lvl_ex;
@@ -93,13 +86,19 @@ public:
     bool changex;
 
 private:
+    exam(exam const &src);            // not copyable (owns current_ex)
+    exam &operator=(exam const &src);
+
     void set_max_time(void);
     void grademe(void);
     void settings_menu(void);
     void grade_request(bool i);
     void exam_random_show(void);
     void end_exam(void);
+    void time_over(void);
+    void sponsor_message(void);
     void set_max_lvl(void);
+    int grade(void);
     int stud_menu(void);
     void load_settings(void);
     void save_settings(void);
@@ -120,10 +119,8 @@ private:
     int time_max;
     int exam_number;
     int using_cheatcode;
-    int exam_grade;
     bool vip;
     int level_per_ex;
     int level;
-    int failures;
     bool backup;
 };

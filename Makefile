@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+.PHONY: all re grade gradejustinstall clean fclean help
+
 all:
 	@bash .system/launch.sh all
 
@@ -23,11 +25,11 @@ grade: clean
 	@bash .system/launch.sh grade
 
 clean:
-	@rm -rf .system/a.out
-	@rm -rf .system/a.out.dSYM
+	@rm -rf .system/a.out .system/a.out.dSYM
 
-fclean:
-	@rm .system/a.out
+fclean: clean
+	@rm -rf .system/exam_token .system/grading rendu subjects traces
 
 help:
-	@echo "\x1B[37mType \x1B[32m> make \x1B[37mto start the exam"
+	@printf "\033[37mType \033[32mmake\033[37m to start the exam\n"
+	@printf "\033[37m     \033[32mmake fclean\033[37m to erase the current exam, settings and rendu\033[0m\n"

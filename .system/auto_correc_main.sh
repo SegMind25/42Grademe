@@ -10,74 +10,73 @@
 #                                                                              #
 # **************************************************************************** #
 
+# usage: bash auto_correc_main.sh <file.c> <assign> [args...]
+# Compiles the reference solution and the student's rendu, runs both with the
+# same arguments and writes a traceback in .system/grading/ on any difference.
+
 FILE="../../rendu/$2/$1"
 MAIN='main.c'
+TIMEOUT_SEC=20
 
-timeout=1
+rm -f .system/grading/traceback
 
-if [ -e .system/grading/traceback ];then
-    rm .system/grading/traceback;
+cd .system/grading || exit 1
+
+gcc -o source "$1" $MAIN 2>/dev/null
+./source "${@:3}" | cat -e > sourcexam
+rm -f source final finalexam .dev
+
+gcc -o final "$FILE" $MAIN 2>.dev
+compiled=0
+timeout=0
+if [ -e final ]; then
+    compiled=1
+    ( ./final "${@:3}" 2>/dev/null | cat -e > finalexam ) &
+    PID=$!
+    # poll every 0.1s, give up after TIMEOUT_SEC seconds
+    ticks=0
+    while kill -0 "$PID" 2>/dev/null; do
+        if [ "$ticks" -ge $((TIMEOUT_SEC * 10)) ]; then
+            timeout=1
+            pkill -KILL -P "$PID" 2>/dev/null
+            kill -KILL "$PID" 2>/dev/null
+            break
+        fi
+        if [ "$ticks" -gt 0 ] && [ $((ticks % 50)) -eq 0 ]; then
+            echo "waiting..."
+        fi
+        sleep 0.1
+        ticks=$((ticks + 1))
+    done
+    wait "$PID" 2>/dev/null
+else
+    : > finalexam
 fi
 
-cd .system/grading || exit
-gcc -o source "$1" $MAIN
-./source "${@:3}" | cat -e > sourcexam       #TESTING
-rm source
-{
-gcc -o final "$FILE" $MAIN
-}  2>.dev
-{
-./final "${@:3}" | cat -e > finalexam &       #TESTING
-PID=$!
-}  &>/dev/null
-
-# loop 1 second for 20 sec
-for i in {1..20}
-do
-    sleep 1
-    # if PID is not running, then exit
-    # if i is 5, 10, 15, 19 then echo "waiting..."
-    if [ "$i" -eq 5 ] || [ "$i" -eq 10 ] || [ "$i" -eq 15 ] || [ "$i" -eq 19 ]; then
-        echo "waiting..."
-    fi
-    if ! ps -p $PID > /dev/null
-    then
-        timeout=0
-        break
-    fi
-done
-
-DIFF=$(diff sourcexam finalexam)
-#if diff is not empty, then there is a difference, or if timeout is 1
-if [ "$DIFF" != "" ] || [ $timeout -eq 1 ]
-then
-        echo "----------------8<-------------[ START TEST " >> traceback
-        printf "        💻 TEST\n./a.out " >> traceback
-        # print all the arguments, begin by the 3rd
-        for i in "${@:3}"
-        do
-            printf "\"%s\" " "$i" >> traceback
+if [ $compiled -eq 0 ] || [ $timeout -eq 1 ] || ! diff -q sourcexam finalexam >/dev/null 2>&1; then
+    {
+        echo "----------------8<-------------[ START TEST "
+        printf "        💻 TEST\n./a.out "
+        for arg in "${@:3}"; do
+            printf '"%s" ' "$arg"
         done
-        printf "        🔎 YOUR OUTPUT:\n" >> traceback
-        cat finalexam >> traceback
-        if [ $timeout -eq 1 ]
-        then
-        printf "   ❌ TIMEOUT\n" >> traceback
-		elif [ -e final ]
-		then
-        printf "        🗝 EXPECTED OUTPUT:\n" >> traceback
-		cat sourcexam >> traceback
-		else 
-        printf "\n";
-        cat .dev >> traceback
-        rm .dev
-		printf "\n        ❌ COMPILATION ERROR\n" >> traceback
-		fi
-        echo "----------------8<------------- END TEST ]" >> traceback
+        printf "\n"
+        if [ $compiled -eq 0 ]; then
+            cat .dev
+            printf "\n        ❌ COMPILATION ERROR\n"
+        else
+            printf "        🔎 YOUR OUTPUT:\n"
+            cat finalexam
+            if [ $timeout -eq 1 ]; then
+                printf "   ❌ TIMEOUT (more than %ss)\n" "$TIMEOUT_SEC"
+            else
+                printf "        🗝 EXPECTED OUTPUT:\n"
+                cat sourcexam
+            fi
+        fi
+        echo "----------------8<------------- END TEST ]"
+    } >> traceback
 fi
-{
-rm final
-rm finalexam
-rm sourcexam
-} &>/dev/null
+
+rm -f final finalexam sourcexam .dev
 cd ../..

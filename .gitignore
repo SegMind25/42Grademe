@@ -11,3 +11,18 @@
 .system/vip_list
 .system/readline_ok
 .system/.devmake.err
+.system/a.out.dSYM/
+.system/.env
+.system/unique_id.txt
+.system/readline_ok
+
+# Exam workspace (created while practising)
+rendu/
+subjects/
+traces/
+success/
+traceback
+a.out
+
+# Stray copy of a .git folder
+/git/

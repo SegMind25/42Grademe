@@ -6,11 +6,12 @@
 #    By: jcluzet <jcluzet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/20 02:26:11 by jcluzet           #+#    #+#              #
-#    Updated: 2022/09/01 23:56:08 by jcluzet          ###   ########.fr        #
+#    Updated: 2022/09/02 00:16:32 by jcluzet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILE='print_bits.c'
+ASSIGN='print_bits/print_bits.c'
 MAIN='main.c'
 MAIN1='../.system/grading/main.c'
 
@@ -27,7 +28,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 }  &>../.system/grading/traceback
 {
 ./final 2 | cat -e > finalexam        #TESTING
@@ -60,7 +61,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final 432 rrerrrfiiljdfxjyuifrrvcoojh | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -88,7 +89,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final 12 | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -116,7 +117,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final -2 | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -144,7 +145,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final 42 | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final

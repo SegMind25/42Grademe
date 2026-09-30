@@ -66,6 +66,13 @@ fi
 touch .system/grading/passed;     # This line must be at the end of your file
 ```
 
+💡 Good to know:
+
+- If the subject says `Expected files: *.c, *.h`, add `export ALL_C=1` under `ASSIGN=`: every `.c` file of the student's folder (and of your reference) will be compiled together.
+- For function exercises, headers placed next to `main.c` (e.g. `list.h`) are visible to the student's file, so students don't need to turn them in.
+- A program running more than 20 seconds is stopped and reported as a `TIMEOUT`.
+- Before opening your pull request, check that your reference solution passes: copy it to `rendu/<exercise>/` and run `bash .system/grading/tester.sh` from the repository root after the exercise has been drawn (or copy the exercise folder into `.system/grading/` yourself).
+
 And here is what the second tester.sh file looks like *(FUNCTION EXERCICE)*:
 
  `👉 The only change is auto_correc_program who become auto_correc_main`

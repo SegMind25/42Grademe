@@ -6,13 +6,14 @@
 #    By: jcluzet <jcluzet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/20 02:26:11 by jcluzet           #+#    #+#              #
-#    Updated: 2022/09/01 23:56:02 by jcluzet          ###   ########.fr        #
+#    Updated: 2022/09/02 00:17:58 by jcluzet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILE='reverse_bits.c'
 MAIN='main.c'
 MAIN1='../.system/grading/main.c'
+ASSIGN='reverse_bits/reverse_bits.c'
 
 index=0
 
@@ -27,7 +28,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 }  &>../.system/grading/traceback
 {
 ./final "a" | cat -e > finalexam        #TESTING
@@ -60,7 +61,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final "1" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -88,7 +89,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final "3" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -116,7 +117,7 @@ gcc -o source $FILE $MAIN
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE $MAIN1
+gcc -o final $ASSIGN $MAIN1
 ./final "w" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final

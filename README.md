@@ -35,10 +35,10 @@
 - [x] Subject drawn at random
 - [x] Exponential waiting before correction
 - [x] Timed sessions (X hours maximum)
-- [x] Automatic correction — fully offline
+- [x] Automatic correction — fully offline, a grader for every exercise
 - [x] Traceback available for each test
-- [x] Infinite loop detection (ExamRank02)
-- [ ] Infinite loop detection for all ExamRanks
+- [x] Infinite loop detection (all exercises, 20s timeout)
+- [x] Exam backup & restore, time limit enforced
 - [ ] Memory leak detection for all exercises
 
 > ⚠️ Works on **macOS and Linux** — the real exam runs on **Linux**.
@@ -80,9 +80,13 @@ Available `make` commands:
 
 ```bash
 make          # start the exam
-make re       # restart from scratch
+make re       # recompile and start
+make fclean   # erase the current exam, settings, rendu and traces
 make help     # show available commands
 ```
+
+> 💾 Your exam is saved automatically: quit with `Ctrl+C` and run `make` again to restore it.
+> Typing `finish` in the examshell ends the exam and deletes the backup.
 
 > Visit [Grademe.fr](https://grademe.fr) to practice in the browser.
 

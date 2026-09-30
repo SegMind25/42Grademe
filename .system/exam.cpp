@@ -16,18 +16,25 @@ std::map<int, exercise> exam::list_dir(void)
     std::string folder;
     if (dir == NULL)
     {
-        std::cout << "Error: can't open directory" << get_path() << std::endl;
-        sleep(100);
-        return list;
+        ui::frame_open("ERROR", false);
+        ui::blank();
+        ui::line(U_RED + "  Can't open the exercise directory:" + U_RESET);
+        ui::line("  " + U_WHITE + path + U_RESET);
+        ui::blank();
+        ui::line("  Your copy of 42_EXAM may be incomplete, try " + U_LIME + "git pull" + U_RESET + ".");
+        ui::blank();
+        ui::frame_close();
+        exit(1);
     }
     while ((entry = readdir(dir)) != NULL)
     {
         folder = entry->d_name;
-        if (folder != "." && folder != ".." && folder != ".DS_Store")
-        {
-            list.insert(std::pair<int, exercise>(i, exercise(get_lvl(), folder)));
-            i++;
-        }
+        if (folder.empty() || folder[0] == '.')
+            continue;
+        if (!file_exists(path + folder + "/tester.sh") && !file_exists(path + folder + "/attachment"))
+            continue;
+        list.insert(std::pair<int, exercise>(i, exercise(get_lvl(), folder)));
+        i++;
     }
     closedir(dir);
     return (list);
@@ -86,7 +93,6 @@ void exam::set_max_time(void)
 
 void exam::explanation(void)
 {
-    std::string enter;
     ui::frame_open("HOW THE EXAM WORKS", false);
     ui::blank();
     ui::line("  " + U_YELLOW + "⚠" + U_RESET + "  You have to work from a new window to keep this one " + U_LIME + "available" + U_RESET);
@@ -154,39 +160,31 @@ void exam::ask_param(void)
                 exam_number = stud_menu();
             }
         }
-        ui::clear();
-        if (student)
-            ui::line_center("EXAM RANK 0" + std::to_string(exam_number), std::string(U_BOLD) + U_LIME);
-        else
-            ui::line_center("EXAM WEEK 0" + std::to_string(exam_number), std::string(U_BOLD) + U_LIME);
-        std::cout << U_WHITE << U_BOLD << "   Confirm " << U_LIME << "Registration" << U_RESET << U_WHITE << U_BOLD << "?" << U_RESET << std::endl;
-        ui::prompt(U_LIME + "y" + U_RESET + " to confirm, anything else to retry");
-        std::string confirm;
-        if (!std::getline(std::cin, confirm))
-            sigd();
-        if (confirm == "y" || confirm == "Y")
+        set_max_lvl();
+        set_max_time();
+        ui::frame_open("REGISTRATION", false);
+        ui::blank();
+        ui::line_center((student ? "EXAM RANK 0" : "EXAM WEEK 0") + std::to_string(exam_number), std::string(U_BOLD) + U_LIME);
+        ui::blank();
+        ui::line("   " + U_DIM + "Levels   " + U_RESET + "  " + U_WHITE + U_BOLD + std::to_string(level_max) + U_RESET);
+        ui::line("   " + U_DIM + "Duration " + U_RESET + "  " + U_WHITE + U_BOLD + std::to_string(time_max / 60) + "h" + U_RESET);
+        ui::blank();
+        ui::frame_close();
+        std::string confirm = ui::ask("Confirm registration? [" + U_LIME + "y" + U_RESET + U_BOLD + "/n]");
+        if (confirm == "y" || confirm == "Y" || confirm == "yes")
             break;
     }
 
-    set_max_lvl();
-    level_per_ex = ((double)level + 1) / (double)level_max * 100;
+    level_per_ex = 100 / level_max;
     level_per_ex_save = level_per_ex;
 
     // SEND DATA ABOUT CHOOSEN EXAM
-    std::string tmp;
-    std::string enter;
-    if (student)
-        tmp = "bash .system/data_sender.sh \"choose_examrank0" + std::to_string(exam_number) + "\"";
-    else
-        tmp = "bash .system/data_sender.sh \"choose_examweek0" + std::to_string(exam_number) + "\"";
-    system(tmp.c_str());
+    send_data((student ? "choose_examrank0" : "choose_examweek0") + std::to_string(exam_number));
     explanation();
     // =============================
 
     // CONNEXION ANIMATION
     connexion();
-    set_max_time();
-    ui::clear();
     ui::frame_open("EXAM READY", false);
     ui::blank();
     ui::line_center(U_LIME + U_BOLD + "✔  You're connected, " + U_WHITE + username + U_LIME + "!" + U_RESET, U_WHITE);
@@ -199,8 +197,8 @@ void exam::ask_param(void)
     ui::line("  " + U_DIM + "Project" + U_RESET + "   " + U_WHITE + U_BOLD
              + (student ? "ExamRank0" + std::to_string(exam_number) : "ExamWeek0" + std::to_string(exam_number))
              + U_RESET + "  in " + U_MAGENTA + U_BOLD + "REAL" + U_RESET + " mode");
-    ui::line("  " + U_DIM + "Start lvl" + U_RESET + "  " + U_YELLOW + U_BOLD + std::to_string(level) + U_RESET);
-    ui::line("  " + U_DIM + "Duration" + U_RESET + "  " + U_LIME + U_BOLD + std::to_string(time_max / 60) + "hrs" + U_RESET);
+    ui::line("  " + U_DIM + "Start lvl" + U_RESET + " " + U_YELLOW + U_BOLD + std::to_string(level) + U_RESET);
+    ui::line("  " + U_DIM + "Duration" + U_RESET + "   " + U_LIME + U_BOLD + std::to_string(time_max / 60) + "h" + U_RESET);
     ui::blank();
     ui::frame_close();
     ui::press_enter("Press a key to start exam 🏁");
@@ -209,10 +207,6 @@ void exam::ask_param(void)
     // TIME SETUP
     start_time = time(0);
     end_time = start_time + (60 * time_max);
-    struct tm temp;
-    memset(&temp, '\0', sizeof(struct tm));
-    localtime_r(&end_time, &temp);
-    // ============
 
 }
 
@@ -243,52 +237,45 @@ std::string generate_unique_id()
 }
 
 // CONSTRUCTOR/OPERATOR/GETTER/SETTER
-exam::exam(void) : exam_grade(0), level(0), level_max(0), failures(0), student(false), backup(false), using_cheatcode(0)
+exam::exam(void)
+    : current_ex(NULL), student(false), waiting_time(true), level_max(1), changex(false),
+      setting_dse(false), setting_dcc(false), setting_an(false),
+      start_time(0), end_time(0), reelmode(true), level_per_ex_save(0), time_max(0),
+      exam_number(0), using_cheatcode(0), vip(false), level_per_ex(0), level(0), backup(false)
 {
-    reelmode = true;
-    waiting_time = true;
-	vip = 0;
     username = getenv("USER") ? getenv("USER") : "unknown";
     load_settings();
-	system("curl https://user.grademe.fr/vip_list > .system/vip_list 2> /dev/null");
-	std::ifstream vip_list(".system/vip_list");
-	std::string line;
-
-	while (std::getline(vip_list, line))
-	{
-		if (line == username)
-		{
-			vip = 1;
-			break;
-		}
-	}
-    changex = 0;
-    if (setting_an == 1)
+    if (setting_an)
         setenv("LOGNAMELOG42EXAM", generate_unique_id().c_str(), 1);
-    system("rm .system/vip_list");
 }
 
-exam &exam::operator=(exam const &src)
+exam::~exam(void)
 {
-    this->exam_grade = src.exam_grade;
-    this->level = src.level;
-    this->level_max = src.level_max;
-    this->failures = src.failures;
-    this->student = src.student;
-    this->reelmode = src.reelmode;
-    this->waiting_time = src.waiting_time;
-    this->level_per_ex = src.level_per_ex;
-    this->level_per_ex_save = src.level_per_ex_save;
-    this->exam_number = src.exam_number;
-    this->start_time = src.start_time;
-    this->end_time = src.end_time;
-    this->time_max = src.time_max;
-    this->current_ex = src.current_ex;
-    return (*this);
+    delete current_ex;
 }
 
-exam::exam(exam const &src) {}
-exam::~exam(void) {}
+// ==> Check (once, with a short timeout) whether the user is a VIP
+void exam::check_vip(void)
+{
+    vip = false;
+    std::string cmd = "curl -s -f --max-time 3 https://user.grademe.fr/vip_list > .system/vip_list 2>/dev/null";
+    if (system(cmd.c_str()) == 0)
+    {
+        std::ifstream vip_list(".system/vip_list");
+        std::string line;
+        while (std::getline(vip_list, line))
+        {
+            if (!line.empty() && line[line.size() - 1] == '\r')
+                line.erase(line.size() - 1);
+            if (line == username)
+            {
+                vip = true;
+                break;
+            }
+        }
+    }
+    remove(".system/vip_list");
+}
 
 void exam::up_lvl(void)
 {

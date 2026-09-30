@@ -3,9 +3,10 @@
 // ==> Store data of exam in a file
 void exam::store_data()
 {
-    std::ofstream file;
-
-    file.open(".system/exam_token/current_token.txt");
+    ensure_dir(TOKEN_DIR);
+    std::ofstream file(TOKEN_FILE);
+    if (!file.is_open())
+        return;
     file << get_start_time() << std::endl;
     file << get_end_time() << std::endl;
     file << get_exam_number() << std::endl;
@@ -18,128 +19,102 @@ void exam::store_data()
     file << level_per_ex << std::endl;
     file << level_per_ex_save << std::endl;
     file << using_cheatcode << std::endl;
-
-    file.close();
 }
 
 // ==> restore an old version of exam
 void exam::restore_data(void)
 {
-    std::ifstream file;
-    exam backup;
+    std::ifstream file(TOKEN_FILE);
+    time_t b_start = 0, b_end = 0, b_tbg = 0;
+    int b_number = 0, b_level = 0, b_assign = 0, b_level_max = 0;
+    int b_per_ex = 0, b_per_ex_save = 0, b_cheat = 0;
+    bool b_student = false;
     std::string name;
-    std::string assign;
-    std::string time_bef_grade;
-    time_t t;
-    file.open(".system/exam_token/current_token.txt", std::ios::in);
-    if (file.is_open())
-    {
-        file >> backup.start_time;
-        file >> backup.end_time;
-        file >> backup.exam_number;
-        file >> backup.student;
-        file >> backup.level;
-        file >> assign;
-        file >> name;
-        file >> backup.level_max;
-        file >> time_bef_grade;
-        file >> backup.level_per_ex;
-        file >> backup.level_per_ex_save;
-        file >> backup.using_cheatcode;
 
-        backup.current_ex = new exercise(backup.get_lvl(), name, std::stoi(assign), std::stoi(time_bef_grade));
-        backup.backup = 1;
-        file.close();
-    }
-    else
-    {
-        std::cout << "Error: can't open backup" << std::endl;
-    }
-
+    bool ok = file.is_open()
+        && (file >> b_start >> b_end >> b_number >> b_student >> b_level >> b_assign
+                 >> name >> b_level_max >> b_tbg >> b_per_ex >> b_per_ex_save)
+        && b_level_max > 0 && b_level >= 0 && b_level < b_level_max && !name.empty();
+    if (ok && !(file >> b_cheat))
+        b_cheat = 0;
     file.close();
 
-    if (backup.end_time > time(0))
+    if (!ok || b_end <= time(0))
     {
-        ui::frame_open("BACKUP FOUND", false);
-        ui::blank();
-        ui::line_center(U_RED + U_BOLD + "!!  BACKUP  !!" + U_RESET, U_WHITE);
-        ui::blank();
-        if (backup.student)
-            ui::line_center(U_WHITE + "EXAMRANK " + U_LIME + "0" + std::to_string(backup.exam_number) + U_RESET, U_WHITE);
-        else
-            ui::line_center(U_WHITE + "EXAMWEEK " + U_LIME + "0" + std::to_string(backup.exam_number) + U_RESET, U_WHITE);
-        ui::line("  " + U_DIM + "Current ex" + U_RESET + "   " + U_LIME + backup.current_ex->get_name() + U_RESET);
-        ui::line("  " + U_DIM + "Time left" + U_RESET + "   " + U_RED + remaining_time(backup.end_time) + U_RESET);
-        ui::blank();
-        ui::sep();
-        ui::blank();
-        ui::card(1, "RESTORE EXAM", "Continue where you left off");
-        ui::blank();
-        ui::card(2, "ERASE EXAM", "Delete the backup and start fresh");
-        ui::blank();
-        ui::frame_close();
-        ui::prompt("Enter your choice [1-2]");
-        std::string answer;
-        std::getline(std::cin, answer);
-        while (answer != "1" && answer != "2")
-        {
-            std::cout << REMOVE_LINE;
-            ui::prompt("Enter your choice [1-2]");
-            std::getline(std::cin, answer);
-        }
-        if (answer == "1")
-        {
-            std::cout << std::endl
-                      << U_LIME << "   ✔  Restoring exam token..." << U_RESET << std::endl
-                      << std::endl;
-            this->start_time = backup.get_start_time();
-            this->end_time = backup.get_end_time();
-            this->exam_number = backup.get_exam_number();
-            this->student = backup.student;
-            this->level = backup.get_lvl();
-            this->current_ex = backup.current_ex;
-            this->backup = backup.backup;
-            this->level_max = backup.level_max;
-            this->level_per_ex = backup.level_per_ex;
-            this->level_per_ex_save = backup.level_per_ex_save;
-            this->using_cheatcode = backup.using_cheatcode;
-        }
-        else
-        {
-            std::cout << "   Exam token deleted" << std::endl;
-            // delete file and return to menu
-            system("rm .system/exam_token/current_token.txt");
-            ui::clear();
-            ask_param();
-        }
+        // corrupted or expired backup: start fresh
+        remove(TOKEN_FILE);
+        ask_param();
+        return;
+    }
+
+    ui::frame_open("BACKUP FOUND", false);
+    ui::blank();
+    ui::line_center(U_YELLOW + U_BOLD + "An exam is still in progress" + U_RESET, U_WHITE);
+    ui::blank();
+    ui::line("   " + U_DIM + "Exam       " + U_RESET + "  " + U_WHITE + U_BOLD + (b_student ? "Exam Rank 0" : "Exam Week 0") + std::to_string(b_number) + U_RESET);
+    ui::line("   " + U_DIM + "Exercise   " + U_RESET + "  " + U_LIME + name + U_RESET + U_DIM + "  (level " + std::to_string(b_level) + "/" + std::to_string(b_level_max) + ")" + U_RESET);
+    ui::line("   " + U_DIM + "Time left  " + U_RESET + "  " + U_RED + remaining_time(b_end) + U_RESET);
+    ui::blank();
+    ui::sep();
+    ui::card(1, "RESTORE EXAM", "Continue where you left off");
+    ui::card(2, "ERASE EXAM", "Delete the backup and start fresh");
+    ui::blank();
+    ui::frame_close();
+    std::string answer = ui::ask("Enter your choice [1-2]");
+    while (answer != "1" && answer != "2")
+    {
+        std::cout << REMOVE_LINE;
+        answer = ui::ask("Enter your choice [1-2]");
+    }
+    if (answer == "1")
+    {
+        start_time = b_start;
+        end_time = b_end;
+        exam_number = b_number;
+        student = b_student;
+        level = b_level;
+        level_max = b_level_max;
+        level_per_ex = b_per_ex;
+        level_per_ex_save = b_per_ex_save;
+        using_cheatcode = b_cheat;
+        delete current_ex;
+        current_ex = new exercise(level, name, b_assign, b_tbg);
+        backup = true;
+        set_max_time();
+        ui::plain(U_LIME + "✔  Exam restored" + U_RESET);
     }
     else
-        ask_param();
-}
-
-// ==> Load .settings file into setting_dse bool
-void exam::load_settings(void)
-{
-    std::ifstream file(".system/exam_token/.settings");
-    std::string line;
-    if (file.is_open())
     {
-        file >> setting_dse;
-        file >> setting_dcc;
-        file >> setting_an;
-        file.close();
+        remove(TOKEN_FILE);
+        ask_param();
     }
 }
 
-// ==> Save setting_dse bool into .settings file
+// ==> Load settings file
+void exam::load_settings(void)
+{
+    std::ifstream file(SETTINGS_FILE);
+    if (file.is_open())
+    {
+        bool dse = false, dcc = false, an = false;
+        if (file >> dse >> dcc >> an)
+        {
+            setting_dse = dse;
+            setting_dcc = dcc;
+            setting_an = an;
+        }
+    }
+}
+
+// ==> Save settings file
 void exam::save_settings(void)
 {
-    std::ofstream file(".system/exam_token/.settings");
+    ensure_dir(TOKEN_DIR);
+    std::ofstream file(SETTINGS_FILE);
     if (file.is_open())
     {
         file << setting_dse << std::endl;
         file << setting_dcc << std::endl;
         file << setting_an << std::endl;
-        file.close();
     }
 }

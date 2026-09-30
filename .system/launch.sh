@@ -1,266 +1,141 @@
-version="2.1"
+#!/bin/bash
+# 42_EXAM launcher: checks dependencies, compiles the examshell and starts it.
 
-# if there is a a.out file in the current directory, delete it
-if [ -f .system/a.out ]; then
-    sleep 0.1
-    rm ./.system/a.out
-    exit 0
-fi
+version="2.2"
+cd "$(dirname "$0")/.." || exit 1
 
-# if the file .system/data_persistence.txt exists, remove it
-if [ -f .system/.devmake.err ]; then
-    rm .system/.devmake.err
-fi
-
-if [ -f .system/readline_ok ]; then
-    rm .system/readline_ok
-fi
-
-export LOGNAMELOG42EXAM="$LOGNAME"
-
-MANGENTA="\033[35m"
 BOLD="\033[1m"
-CLEAR_LINE="\033[2K"
-LINE_UP="\033[1A"
 RED="\033[31m"
-WHITE="\033[37m"
-GRAY="\033[90m"
-BLUE="\033[34m"
 GREEN="\033[32m"
+GRAY="\033[90m"
+MAGENTA="\033[35m"
+WHITE="\033[37m"
 RESET="\033[0m"
-spin[0]="⠁"
-spin[1]="⠃"
-spin[2]="⠇"
-spin[3]="⠧"
-spin[4]="⠷"
-spin[5]="⠿"
-spin[6]="⠷"
-spin[7]="⠧"
-spin[8]="⠇"
-spin[9]="⠃"
+CLEAR_LINE="\r\033[2K"
+SPIN=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
 
-if [ "$1" != "grade" ]; then
-    if [ "$1" != "gradejustinstall" ]; then
-        clear
-    fi
-fi
+ok()   { printf "${CLEAR_LINE}${GREEN}${BOLD}✔${RESET} %b\n" "$1"; }
+fail() { printf "${CLEAR_LINE}${RED}${BOLD}✗${RESET} %b\n" "$1"; }
+info() { printf "${CLEAR_LINE}${GRAY}  ➫ %b${RESET}\n" "$1"; }
 
-ping -c 1 google.com >/dev/null 2>&1 &
-PID=$!
-
-while [ -d /proc/$PID ]; do
-    for i in "${spin[@]}"; do
-        echo -ne "$LINE_UP$WHITE$i$RESET Checking server availability\n"
-        for i in {1..32}; do
-            printf "\b"
-        done
-        sleep 0.1
+# spin <pid> <message>: animate while <pid> is running
+spin() {
+    local pid=$1 msg=$2 i=0
+    while kill -0 "$pid" 2>/dev/null; do
+        printf "${CLEAR_LINE}${WHITE}%s${RESET} %b" "${SPIN[i]}" "$msg"
+        i=$(( (i + 1) % ${#SPIN[@]} ))
+        sleep 0.08
     done
-done
-
-if [ "$1" != "gradejustinstall" ]; then
-
-    if ! ping -c 1 google.com >/dev/null 2>&1; then
-        printf "$LINE_UP$CLEAR_LINE$RED"
-        echo -ne "✗$RESET Checking server availability$WHITE$BOLD\n"
-        echo -ne "  ➫ Local launch\n\n"
-    else
-        git pull >/dev/null 2>&1 &
-        printf "$LINE_UP$CLEAR_LINE$RED"
-        # clear
-        printf "$GREEN$BOLD"
-        echo -ne "✔$RESET You have the last version$GREEN$BOLD v$version\n\n"
-
-    fi
-
-fi
-
-# sleep 1000
-
-# check if there is connection to the internet, else do git pull for maj
-
-# Check if readline is installed, if not, install it
-g++ .system/checkreadline.cpp -o .system/readline_ok 2>.system/.devmake.err &
-
-if [ ! -f .system/readline_ok ]; then
-    for i in "${spin[@]}"; do
-        echo -ne "$LINE_UP$WHITE$i$WHITE$BOLD Checking readline library\n"
-        for i in {1..29}; do
-            printf "\b"
-        done
-        sleep 0.1
-    done
-fi
-
-printf "$LINE_UP$CLEAR_LINE$GREEN$BOLD"
-echo -ne "✔$RESET Checking readline library$WHITE$BOLD\n\n"
-
-if [ ! -f .system/readline_ok ]; then
-    # clear
-    printf "$LINE_UP$CLEAR_LINE$RED"
-    printf "$LINE_UP$CLEAR_LINE$RED"
-    echo -ne "✗$RESET Readline is not installed$WHITE$BOLD\n"
-    echo -ne "$RED$BOLD"
-    echo -ne "Readline library not installed $WHITE$BOLD\n"
-    echo -e " ➫ Auto install in 2 seconds...\n"
-    sleep 2
-    sudo apt-get update
-    sudo apt-get install libreadline-dev 2>.system/.devmake.err 1>.system/.devmake.err &
-    PID=$!
-
-    while [ -d /proc/$PID ]; do
-        for i in "${spin[@]}"; do
-            echo -ne "$LINE_UP$WHITE$i$WHITE$BOLD libreadline-dev installation using apt-get\n"
-            for i in {1..44}; do
-                printf "\b"
-            done
-            sleep 0.1
-        done
-    done
-
-    printf "$LINE_UP$CLEAR_LINE$GREEN$BOLD"
-    # echo -ne "✔$RESET Readline installation using apt-get$WHITE$BOLD\n\n"
-
-    # check if the compilator c++ is installed
-
-
-
-    # clear
-    g++ .system/checkreadline.cpp -o .system/readline_ok 2>.system/.devmake.err
-    # if there is no .system/readline_ok file, it means that the readline library is not installed
-    if [ ! -f .system/readline_ok ]; then
-        echo -ne "$RED$BOLD"
-        # clear
-        echo -ne "Readline installation error using apt-get... $WHITE$BOLD"
-        echo -e "Try to install with yum..."
-        sleep 1
-        sudo yum install readline
-        clear
-
-
-        g++ .system/checkreadline.cpp -o .system/readline_ok 2>.system/.devmake.err
-
-
-
-
-
-        if [ ! -f .system/readline_ok ]; then
-            echo -ne "Can't install readline library... $WHITE$BOLD"
-            echo -ne "1. Check if g++ is installed\n"
-            echo -ne "2. Check if libreadline-dev is installed\n"
-            echo -e "Please install it manually or write an Issue on Github..."
-            exit 1
-        fi
-        # clear
-    fi
-    echo -ne "✔$RESET libreadline-dev installation using apt-get$WHITE$BOLD\n\n"
-    # echo -ne "Readline is installed, please relaunch the program $WHITE$BOLD"
-    # echo "Auto exit in 2 seconds..."
-    # sleep 2
-    # exit 0
-fi
-
-rm -rf .system/readline_ok
-# sleep 1000
-# clear
-# echo -ne "$RESET"
-# echo -ne "Compilation of$BOLD$MANGENTA 42_EXAM v2.1 $RESET "
-# ===============================================
-
-g++ .system/ui.cpp .system/exercise.cpp .system/main.cpp .system/menu.cpp .system/exam.cpp .system/utils.cpp .system/grade_request.cpp .system/data_persistence.cpp -lreadline -o .system/a.out >.system/.devmake.err 2>.system/.devmake.err &
-PID=$!
-
-# while there is no a.out file in the current directory, wait
-while [ ! -f .system/a.out ]; do
-    for i in "${spin[@]}"; do
-        echo -ne "$LINE_UP$WHITE$i$WHITE$BOLD Compilation of$BOLD$MANGENTA 42_EXAM $RESET\n"
-        if [ -f .system/.devmake.err ]; then
-            result=$(awk '{t+=length($0)}END{print t}' .system/.devmake.err)
-            # echo "$result<<<<"
-            if [ "$result" != "" ]; then
-                sending=$(cat .system/.devmake.err)
-                printf "$LINE_UP$CLEAR_LINE$RED"
-                echo -ne "✗$RESET Compilation of$BOLD$MANGENTA 42_EXAM $RESET\n"
-                printf "$RED$BOLD"
-                printf "Oops !$WHITE$BOLD Something went wrong during the compilation...\n"
-                echo "Please make a report on Github repo, make sure to include this :"
-                echo ""
-                printf "      - Your OS:$RESET$GRAY $(uname -a)$WHITE$BOLD\n"
-                printf "      - The error message:$RESET$GRAY\n"
-                cat .system/.devmake.err
-                printf "$WHITE$BOLD"
-                echo ""
-                echo "Thanks for your contribution !"
-                exit 0
-            fi
-        fi
-        sleep 0.1
-        for i in {1..30}; do
-            printf "\b"
-        done
-    done
-done
-
-wait $PID
-
-check_package() {
-    if ! command -v "$1" &>/dev/null; then
-        return 1
-    fi
 }
 
-# Vérification de clang
-if ! check_package "clang"; then
-    echo "Le compilateur clang n'est pas installé sur votre système."
-    echo "Veuillez l'installer pour continuer."
+# run_step <message> <command...>: run a command with a spinner, return its status
+run_step() {
+    local msg=$1; shift
+    "$@" >/dev/null 2>.system/.devmake.err &
+    local pid=$!
+    spin "$pid" "$msg"
+    wait "$pid"
+}
+
+rm -f .system/a.out .system/.devmake.err
+[ "$1" != "grade" ] && [ "$1" != "gradejustinstall" ] && clear
+printf "\n${BOLD}${MAGENTA}  42_EXAM${RESET} ${GRAY}v$version${RESET}\n\n"
+
+# ---- 1. compilers --------------------------------------------------------
+missing=""
+for tool in gcc g++; do
+    command -v "$tool" >/dev/null 2>&1 || missing="$missing $tool"
+done
+if [ -n "$missing" ]; then
+    fail "Missing compiler:${BOLD}$missing${RESET}"
+    info "Install it first (e.g. ${WHITE}sudo apt-get install build-essential${GRAY} or ${WHITE}xcode-select --install${GRAY})"
     exit 1
 fi
+ok "Compilers found"
 
-# Vérification de clang++
-if ! check_package "clang++"; then
-    echo "Le compilateur clang++ n'est pas installé sur votre système."
-    echo "Veuillez l'installer pour continuer."
-    exit 1
-fi
-
-# Vérification de gcc
-if ! check_package "gcc"; then
-    echo "Le compilateur gcc n'est pas installé sur votre système."
-    echo "Veuillez l'installer pour continuer."
-    exit 1
-fi
-
-# Vérification de g++
-if ! check_package "g++"; then
-    echo "Le compilateur g++ n'est pas installé sur votre système."
-    echo "Veuillez l'installer pour continuer."
-    exit 1
-fi
-
-printf "$LINE_UP$CLEAR_LINE$GREEN$BOLD"
-echo -ne "✔$RESET Compilation of$BOLD$MANGENTA 42_EXAM $RESET\n"
-
-# echo "Done!"
-chmod +x .system/a.out
-# sleep 1
-
-
-
-# check if USER is set, if not, set it
-if [ -z "$USER" ]; then
-    #if there is a .system/.env file, read it and set the variable USER
-    if [ -f .system/.env ]; then
-        export USER=$(cat .system/.env)
-        echo "Variable USER set to $USER ✅"
-        ./.system/a.out
-        exit 0
+# ---- 2. updates (only when online) ---------------------------------------
+if [ "$1" != "gradejustinstall" ]; then
+    if run_step "Checking for updates" curl -s --max-time 3 -o /dev/null https://github.com; then
+        if [ -d .git ]; then
+            git pull --ff-only >/dev/null 2>&1 &
+        fi
+        ok "Online ${GRAY}— you have the latest version v$version${RESET}"
+    else
+        fail "Offline ${GRAY}— local launch${RESET}"
     fi
-    echo "USER is not set, you must enter your 42 login to use this program "
-    echo -ne "Enter your 42 login : "
-    read -r user_login        # Lire le login entré par l'utilisateur
-    export USER="$user_login" # Créer la variable d'environnement USER
-    echo "USER=$user_login" >.system/.env
-    echo "Variable USER set to $USER ✅"
 fi
 
+# ---- 3. readline ---------------------------------------------------------
+readline_ok() {
+    g++ .system/checkreadline.cpp -lreadline -o .system/readline_ok >/dev/null 2>&1
+    local status=$?
+    rm -f .system/readline_ok
+    return $status
+}
+
+if run_step "Checking readline library" readline_ok; then
+    ok "Readline library"
+else
+    fail "Readline library not installed"
+    if command -v apt-get >/dev/null 2>&1; then
+        info "Installing libreadline-dev with apt-get (sudo password may be asked)..."
+        sudo apt-get install -y libreadline-dev
+    elif command -v dnf >/dev/null 2>&1; then
+        info "Installing readline-devel with dnf (sudo password may be asked)..."
+        sudo dnf install -y readline-devel
+    elif command -v yum >/dev/null 2>&1; then
+        info "Installing readline-devel with yum (sudo password may be asked)..."
+        sudo yum install -y readline-devel
+    elif command -v brew >/dev/null 2>&1; then
+        info "Installing readline with brew..."
+        brew install readline
+    fi
+    if ! readline_ok; then
+        fail "Can't install the readline library automatically"
+        info "1. Check that g++ is installed"
+        info "2. Install libreadline-dev (Debian/Ubuntu) or readline-devel (Fedora) manually"
+        info "3. Still stuck? Open an issue on Github"
+        exit 1
+    fi
+    ok "Readline library installed"
+fi
+
+# ---- 4. compile ----------------------------------------------------------
+SOURCES=".system/ui.cpp .system/exercise.cpp .system/main.cpp .system/menu.cpp .system/exam.cpp \
+.system/utils.cpp .system/grade_request.cpp .system/data_persistence.cpp"
+
+# shellcheck disable=SC2086
+if ! run_step "Compiling ${MAGENTA}${BOLD}42_EXAM${RESET}" g++ -std=c++11 -O2 $SOURCES -lreadline -o .system/a.out; then
+    fail "Compilation of ${MAGENTA}${BOLD}42_EXAM${RESET}"
+    printf "\n${RED}${BOLD}Oops!${RESET}${BOLD} Something went wrong during the compilation...${RESET}\n"
+    echo "Please open an issue on the Github repo and include:"
+    echo ""
+    printf "  - Your OS: ${GRAY}%s${RESET}\n" "$(uname -a)"
+    printf "  - The error message:${GRAY}\n"
+    cat .system/.devmake.err
+    printf "${RESET}\nThanks for your contribution!\n"
+    exit 1
+fi
+rm -f .system/.devmake.err
+ok "Compiled ${MAGENTA}${BOLD}42_EXAM${RESET}"
+chmod +x .system/a.out
+
+[ "$1" = "gradejustinstall" ] && exit 0
+
+# ---- 5. login ------------------------------------------------------------
+if [ -z "$USER" ]; then
+    if [ -f .system/.env ]; then
+        USER=$(sed 's/^USER=//' .system/.env | head -n 1)
+    fi
+    if [ -z "$USER" ]; then
+        printf "\n${BOLD}USER is not set.${RESET} Enter your 42 login: "
+        read -r USER
+        echo "$USER" > .system/.env
+    fi
+    export USER
+    ok "Login set to ${BOLD}$USER${RESET}"
+fi
+
+export LOGNAMELOG42EXAM="${LOGNAME:-$USER}"
+sleep 0.3
 ./.system/a.out

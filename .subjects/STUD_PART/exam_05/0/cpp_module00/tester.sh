@@ -12,6 +12,7 @@
 
 MAIN='main.cpp'
 MAIN1='cpp_module00/main.cpp'
+CXX=$(command -v clang++ || command -v c++ || command -v g++)
 
 index=0
 
@@ -21,13 +22,13 @@ then
 fi
 
 cd .system/grading
-clang++ -Wall -Wextra -Werror -std=c++98 -o source $MAIN Warlock.cpp
+$CXX -Wall -Wextra -Werror -std=c++98 -o source $MAIN Warlock.cpp
 ./source | cat -e > sourcexam       #TESTING
 rm source
 cp main.cpp ../../rendu/cpp_module00
 cd ../../rendu
 {
-clang++ -Wall -Wextra -Werror -std=c++98 -o final $MAIN1 cpp_module00/Warlock.cpp
+$CXX -Wall -Wextra -Werror -std=c++98 -o final $MAIN1 cpp_module00/Warlock.cpp
 }  &>../.system/grading/traceback
 rm -f cpp_module00/main.cpp
 # if there is a traceback file, exit this script

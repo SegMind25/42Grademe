@@ -1,87 +1,32 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sort_list.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/26 14:20:31 by angavrel          #+#    #+#             */
-/*   Updated: 2017/02/26 15:00:03 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// Passed Moulinette 2019.09.01
 
 #include "list.h"
 
-void	swap(int *a, int *b)
+void	swap_values(t_list *a, t_list *b)
 {
-	int	tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+	int swap = a->data;
+	a->data = b->data;
+	b->data = swap;
 }
 
-#include <stdio.h>
-int		ascending(int a, int b)
+t_list	*sort_list(t_list* lst, int (*cmp)(int, int))
 {
-		return (a <= b);
-}
+	int swapped = 1;
+	t_list *cur = lst;
 
-t_list		*sort_list(t_list* lst, int (*cmp)(int, int))
-{
-	t_list	*begin;
-	t_list	*p;
-
-	begin = lst;
-	while (lst)
+	while (swapped == 1)
 	{
-		p = lst->next;
-		while (p)
+		swapped = 0;
+		while (cur != 0 && cur->next != 0)
 		{
-			if (!(*cmp)(lst->data, p->data))
+			if (cmp(cur->data, cur->next->data) == 0)
 			{
-				swap(&lst->data, &p->data);
+				swap_values(cur, cur->next);
+				swapped = 1;
 			}
-			p = p->next;
+			cur = cur->next;
 		}
-		lst = lst->next;
+		cur = lst;
 	}
-	return (begin);
-}
-
-#include <stdlib.h>
-
-int		main(void)
-{
-	t_list *l;
-	int		i;
-	t_list	*t;
-	t_list	*b;
-
-	i = 50;
-	l = malloc(sizeof(t_list));
-	t = l;
-	b = l;
-	while (i)
-	{
-		l->data = i % 3;
-		l->next = malloc(sizeof(t_list));
-		l = l->next;
-		--i;
-	}
-	l->data = (int)"fromage";
-	l->next = NULL;
-	while (t)
-	{
-		printf("%d ", t->data);
-		t = t->next;
-		++i;
-	}
-	b = sort_list(b, ascending);
-	while (b)
-	{
-		printf("%d ", b->data);
-		b = b->next;
-		++i;
-	}
+	return (lst);
 }

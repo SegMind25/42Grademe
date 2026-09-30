@@ -1,104 +1,76 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rpn_calc.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/06 16:36:17 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/06 16:38:26 by angavrel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stdio.h>
+#include <stdlib.h>
 
-#include "rpn_calc.h"
+/* reference: evaluate a Reverse Polish Notation expression */
 
-
-void	rpn_calc(char *s)
+static int	is_op(char *s)
 {
-	t_s	**stack;
-	int	num1;
-	int	num2;
+	return ((*s == '+' || *s == '-' || *s == '*' || *s == '/' || *s == '%')
+		&& (s[1] == ' ' || s[1] == '\0'));
+}
 
-	if (!(stack = (t_s **)malloc(sizeof(t_s*))))
-		return ;
+static int	rpn(char *s, long *result)
+{
+	long	stack[4096];
+	int		top;
+	long	a;
+	long	b;
+	int		i;
+
+	top = 0;
 	while (*s)
 	{
-		while (*s && is_space(*s))
+		if (*s == ' ')
+		{
 			s++;
-		if (*s && is_digit(*s))
-		{
-			push(stack, atoi(s));
-			while (*s && is_digit(*s))
-				s++;
+			continue ;
 		}
-		else if (*s && is_op(*s))
+		if (is_op(s))
 		{
-			if (*(s + 1) && is_digit(*(s + 1)))
-			{
-				push(stack, atoi(s));
-				s++;
-				while (is_digit(*s))
-					s++;
-			}
-			else {
-				num1 = pop(stack);
-				num2 = pop(stack);
-				if (num2 == 0 && (*s == '/' || *s == '%'))
-				{
-					printf("Error\n");
-					return ;
-				}
-				push(stack, do_op(num1, num2, *s));
-				s++;
-			}
+			if (top < 2)
+				return (0);
+			b = stack[--top];
+			a = stack[--top];
+			if ((*s == '/' || *s == '%') && b == 0)
+				return (0);
+			if (*s == '+')
+				stack[top++] = a + b;
+			else if (*s == '-')
+				stack[top++] = a - b;
+			else if (*s == '*')
+				stack[top++] = a * b;
+			else if (*s == '/')
+				stack[top++] = a / b;
+			else
+				stack[top++] = a % b;
+			s++;
+			continue ;
 		}
+		i = (*s == '-') ? 1 : 0;
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+		while (s[i] >= '0' && s[i] <= '9')
+			i++;
+		if (s[i] != ' ' && s[i] != '\0')
+			return (0);
+		if (top >= 4096)
+			return (0);
+		stack[top++] = atoi(s);
+		s += i;
 	}
-	printf("%i\n", (*stack)->i);
-	
+	if (top != 1)
+		return (0);
+	*result = stack[0];
+	return (1);
 }
 
-void	push(t_s **stack, int i)
+int	main(int ac, char **av)
 {
-	t_s	*link;
+	long	result;
 
-	if (!(link = (t_s *)malloc(sizeof(t_s))))
-		return ;
-	link->i = i;
-	if (*stack)
-	{
-		link->next = *stack;
-		*stack = link;
-	}
+	if (ac == 2 && rpn(av[1], &result))
+		printf("%ld\n", result);
 	else
-	{
-		link->next = *stack;
-		stack = &link;
-	}
-}
-
-int		pop(t_s **stack)
-{
-	int	num;
-	t_s *tmp;
-
-	num = (*stack)->i;
-	tmp = (*stack);
-	*stack = (*stack)->next;
-	free(tmp);
-	return (num);
-}
-
-int	do_op(int i, int j, char c)
-{
-	if (c == '+')
-		return (i + j);
-	else if (c == '-')
-		return (i - j);
-	else if (c == '*')
-		return (i * j);
-	else if (c == '/')
-		return (i / j);
-	else if (c == '%')
-		return (i % j);
+		printf("Error\n");
 	return (0);
 }

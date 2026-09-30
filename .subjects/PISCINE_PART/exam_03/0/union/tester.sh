@@ -6,11 +6,12 @@
 #    By: jcluzet <jcluzet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/20 02:26:11 by jcluzet           #+#    #+#              #
-#    Updated: 2022/09/01 23:56:03 by jcluzet          ###   ########.fr        #
+#    Updated: 2022/09/02 00:17:40 by jcluzet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILE='union.c'
+ASSIGN='union/union.c'
 
 index=0
 
@@ -25,7 +26,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 }  &>../.system/grading/traceback
 {
 ./final | cat -e > finalexam        #TESTING
@@ -56,7 +57,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -84,7 +85,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final ddf6vewg64f gtwthgdwthdwfteewhrtag6h4ffdhsd | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -113,7 +114,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "rien" "cette phrase ne cache rien" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -142,7 +143,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "rien" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -168,7 +169,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "a" "b" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -194,7 +195,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "  lorem,ipsum  " "oooo" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final
@@ -220,7 +221,7 @@ gcc -o source $FILE
 rm source
 cd ../../rendu
 {
-gcc -o final $FILE
+gcc -o final $ASSIGN
 ./final "this        ...       is sparta, then again, maybe    not" "lol" | cat -e > finalexam     #TESTING
 mv finalexam ../.system/grading/
 rm final

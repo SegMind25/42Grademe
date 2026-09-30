@@ -5,26 +5,26 @@
 #include <functional>
 
 // ---- extended ANSI helpers (kept short to not clash with exam.hpp macros) ----
-#define U_BOLD std::string("\e[1m")
-#define U_DIM std::string("\e[2m")
-#define U_ITALIC std::string("\e[3m")
-#define U_UNDERLINE std::string("\e[4m")
-#define U_RESET std::string("\e[0m")
-#define U_BLACK std::string("\e[30m")
-#define U_RED std::string("\e[91m")
-#define U_GREEN std::string("\e[92m")
-#define U_LIME std::string("\e[92m")
-#define U_YELLOW std::string("\e[93m")
-#define U_BLUE std::string("\e[94m")
-#define U_MAGENTA std::string("\e[95m")
-#define U_CYAN std::string("\e[96m")
-#define U_WHITE std::string("\e[97m")
-#define U_GRAY std::string("\e[90m")
-#define U_ORANGE std::string("\e[38;5;208m")
-#define U_PINK std::string("\e[38;5;205m")
-#define U_GOLD std::string("\e[38;5;178m")
-#define U_TEAL std::string("\e[38;5;80m")
-#define U_CLEAR std::string("\e[H\e[2J\e[3J")
+#define U_BOLD std::string("\033[1m")
+#define U_DIM std::string("\033[2m")
+#define U_ITALIC std::string("\033[3m")
+#define U_UNDERLINE std::string("\033[4m")
+#define U_RESET std::string("\033[0m")
+#define U_BLACK std::string("\033[30m")
+#define U_RED std::string("\033[91m")
+#define U_GREEN std::string("\033[92m")
+#define U_LIME std::string("\033[92m")
+#define U_YELLOW std::string("\033[93m")
+#define U_BLUE std::string("\033[94m")
+#define U_MAGENTA std::string("\033[95m")
+#define U_CYAN std::string("\033[96m")
+#define U_WHITE std::string("\033[97m")
+#define U_GRAY std::string("\033[90m")
+#define U_ORANGE std::string("\033[38;5;208m")
+#define U_PINK std::string("\033[38;5;205m")
+#define U_GOLD std::string("\033[38;5;178m")
+#define U_TEAL std::string("\033[38;5;80m")
+#define U_CLEAR std::string("\033[H\033[2J\033[3J")
 
 // Box drawing characters
 #define UI_H "═"
@@ -60,9 +60,10 @@ void line_kv(const std::string &label, const std::string &value,
 std::string center(const std::string &s, int cw = -1);
 std::string pad(const std::string &s, int cw = -1);
 std::string truncate(const std::string &s, int max_w);
+std::vector<std::string> wrap(const std::string &text, int width); // word-wrap, ANSI aware
 
 // ---- decorative components ----
-void logo(void);                                        // big "42EXAM" block
+bool logo(void);                                        // big "42EXAM" block (false if too narrow)
 void card(int num, const std::string &title, const std::string &desc = "");
 std::string progress(double pct, int len = 24);          // ▓░░ bar
 std::string badge(const std::string &s, const std::string &color);
@@ -70,6 +71,6 @@ std::string badge(const std::string &s, const std::string &color);
 // ---- interactive helpers ----
 void prompt(const std::string &msg = "Enter your choice");
 void press_enter(const std::string &msg = "Press Enter to continue...");
-std::string ask(const std::string &msg);                 // prompt + read line
+std::string ask(const std::string &msg);                 // prompt + read trimmed line (exits on EOF)
 
 } // namespace ui
